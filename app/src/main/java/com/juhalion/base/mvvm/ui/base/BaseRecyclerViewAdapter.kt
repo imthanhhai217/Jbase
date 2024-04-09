@@ -1,4 +1,4 @@
-package com.callscreen.caller.basemvvm.ui.base
+package com.juhalion.base.mvvm.ui.base
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,10 +1,10 @@
-package com.callscreen.caller.basemvvm.ui.base
+package com.juhalion.base.mvvm.ui.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.callscreen.caller.basemvvm.R
+import com.juhalion.base.mvvm.R
 
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     private var _binding: VB? = null

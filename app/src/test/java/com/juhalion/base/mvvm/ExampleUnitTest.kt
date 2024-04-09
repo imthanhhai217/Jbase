@@ -1,4 +1,4 @@
-package com.callscreen.caller.basemvvm
+package com.juhalion.base.mvvm
 
 import org.junit.Test
 

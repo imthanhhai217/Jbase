@@ -2,4 +2,9 @@
     <string name="app_name">BaseMVVM</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tool_bar_title">Comments</string>
+    <string name="home_fragment_tag">HomeFragment</string>
+    <string name="no_internet_connection">No internet connection detected.</string>
+    <string name="unable_to_fetch_data">Unable to fetch data</string>
+    <string name="some_error_occurred">Some error occurred.</string>
 </resources>
