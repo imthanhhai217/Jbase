@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.juhalion.base.mvvm.R
-import com.juhalion.base.mvvm.databinding.FragmentHomeBinding
+import com.callscreen.caller.basemvvm.R
+import com.callscreen.caller.basemvvm.databinding.FragmentHomeBinding
 import com.juhalion.base.mvvm.ui.activities.MainActivity
 import com.juhalion.base.mvvm.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,8 +1,8 @@
 package com.juhalion.base.mvvm.ui.activities
 
 import android.os.Bundle
-import com.juhalion.base.mvvm.R
-import com.juhalion.base.mvvm.databinding.ActivityMainBinding
+import com.callscreen.caller.basemvvm.R
+import com.callscreen.caller.basemvvm.databinding.ActivityMainBinding
 import com.juhalion.base.mvvm.ui.base.BaseActivity
 import com.juhalion.base.mvvm.ui.fragments.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
