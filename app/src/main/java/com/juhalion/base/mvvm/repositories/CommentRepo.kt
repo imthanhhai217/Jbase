@@ -6,9 +6,9 @@ import com.juhalion.base.mvvm.networking.ApiService
 import com.juhalion.base.mvvm.networking.GenericApiResponse
 import javax.inject.Inject
 
-class CommentRepo @Inject constructor(private val apiService: ApiService) : GenericApiResponse() {
+class CommentRepo @Inject constructor(private val apiService: ApiService): GenericApiResponse() {
 
-    suspend fun getComments(): ApiResponse<CommentResponse> {
+    suspend fun getComments():ApiResponse<CommentResponse>{
         return apiCall { apiService.getComments() }
     }
 }

@@ -23,7 +23,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).setTitle(getString(R.string.tool_bar_title))
-
         getData()
     }
 
