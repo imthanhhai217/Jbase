@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.callscreen.caller.basemvvm.R
 import com.callscreen.caller.basemvvm.databinding.FragmentHomeBinding
+import com.juhalion.base.mvvm.adapters.CommentAdapter
+import com.juhalion.base.mvvm.networking.ApiResponse
 import com.juhalion.base.mvvm.ui.activities.MainActivity
 import com.juhalion.base.mvvm.ui.base.BaseFragment
 import com.juhalion.base.mvvm.viewmodels.CommentViewModel
@@ -14,10 +17,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-    private lateinit var commentViewModel:CommentViewModel
+    private val commentViewModel: CommentViewModel by activityViewModels()
+    private lateinit var commentAdapter: CommentAdapter
     override fun inflateBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?
+        container: ViewGroup?,
     ) = FragmentHomeBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,6 +31,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun getData() {
+        commentViewModel.getComment().observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Success -> {
+                    dismissLoadingDialog()
+                    commentAdapter = CommentAdapter()
+                    it.data?.let {responseData->
+                        commentAdapter.updateData(responseData.comments)
+                        binding.rvDemo.layoutManager = LinearLayoutManager(requireActivity())
+                        binding.rvDemo.adapter = commentAdapter
+
+                        commentAdapter.listener = { view, item, position ->
+                            when (view.id) {
+                                R.id.tvComment -> showToast()
+                            }
+                        }
+                    }
+                }
+
+                is ApiResponse.Failed -> {
+                    dismissLoadingDialog()
+                }
+
+                is ApiResponse.Loading -> {
+                    showLoadingDialog()
+                }
+            }
+        }
+    }
+
+    private fun showToast() {
 
     }
 }

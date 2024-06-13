@@ -44,7 +44,7 @@ android {
 
 dependencies {
     var lifecycle_version = "2.6.1"
-    var hilt_version = "2.44"
+    var hilt_version = "2.50"
     var nav_version = "2.6.0"
     var retrofit_version = "2.9.0"
     var okHttp_version = "4.9.1"
@@ -77,6 +77,6 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:$okHttp_version")
     implementation("com.squareup.okhttp3:logging-interceptor:$okHttp_version")
 
-    implementation ("com.intuit.sdp:sdp-android:1.1.1")
-    implementation ("com.intuit.ssp:ssp-android:1.1.1")
+    implementation("com.intuit.sdp:sdp-android:1.1.1")
+    implementation("com.intuit.ssp:ssp-android:1.1.1")
 }

@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CommentViewModel @Inject constructor(private val commentRepo: CommentRepo, private val application: Application) : AndroidViewModel(application) {
+class CommentViewModel @Inject constructor(private val commentRepo: CommentRepo, application: Application) : AndroidViewModel(application) {
 
     private var commentData = MutableLiveData<ApiResponse<CommentResponse>>()
 

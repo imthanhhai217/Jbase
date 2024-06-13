@@ -6,8 +6,9 @@ import com.juhalion.base.mvvm.utils.Utils
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
+import javax.inject.Inject
 
-class CustomInterceptor(val application: Application) : Interceptor {
+class CustomInterceptor @Inject constructor(val application: Application) : Interceptor {
     private lateinit var response: Response
     override fun intercept(chain: Interceptor.Chain): Response {
         if (!Utils.isNetworkConnected(application = application)) {
