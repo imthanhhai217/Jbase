@@ -43,12 +43,6 @@ android {
 }
 
 dependencies {
-    var lifecycle_version = "2.6.1"
-    var hilt_version = "2.50"
-    var nav_version = "2.6.0"
-    var retrofit_version = "2.9.0"
-    var okHttp_version = "4.9.1"
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -58,6 +52,11 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    var lifecycle_version = "2.6.1"
+    var hilt_version = "2.50"
+    var nav_version = "2.6.0"
+    var retrofit_version = "2.9.0"
+    var okHttp_version = "4.9.1"
     //Dagger hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
