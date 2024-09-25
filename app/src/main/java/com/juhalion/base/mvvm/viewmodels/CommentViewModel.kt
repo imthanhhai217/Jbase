@@ -17,14 +17,13 @@ import javax.inject.Inject
 @HiltViewModel
 class CommentViewModel @Inject constructor(private val commentRepo: CommentRepo, application: Application) : AndroidViewModel(application) {
 
-    private var commentData = MutableLiveData<ApiResponse<CommentResponse>>()
+    var commentData = MutableLiveData<ApiResponse<CommentResponse>>()
 
-    fun getComment():LiveData<ApiResponse<CommentResponse>>{
-        commentData.value = ApiResponse.Loading()
+    fun getComment(){
+        commentData.postValue(ApiResponse.Loading())
         viewModelScope.launch{
             val response = commentRepo.getComments()
-            commentData.value = response
+            commentData.postValue(response)
         }
-        return commentData
     }
 }

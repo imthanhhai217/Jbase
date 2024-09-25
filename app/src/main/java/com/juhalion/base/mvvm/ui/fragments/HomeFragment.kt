@@ -31,12 +31,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun getData() {
-        commentViewModel.getComment().observe(viewLifecycleOwner) {
-            when (it) {
+        commentViewModel.getComment()
+        commentViewModel.commentData.observe(viewLifecycleOwner) {response->
+            when (response) {
                 is ApiResponse.Success -> {
                     dismissLoadingDialog()
                     commentAdapter = CommentAdapter()
-                    it.data?.let {responseData->
+                    response.data?.let {responseData->
                         commentAdapter.updateData(responseData.comments)
                         binding.rvDemo.layoutManager = LinearLayoutManager(requireActivity())
                         binding.rvDemo.adapter = commentAdapter
