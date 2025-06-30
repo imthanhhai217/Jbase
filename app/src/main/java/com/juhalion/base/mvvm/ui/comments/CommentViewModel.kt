@@ -1,12 +1,9 @@
-package com.juhalion.base.mvvm.viewmodels
+package com.juhalion.base.mvvm.ui.comments
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.juhalion.base.mvvm.models.response.comments.Comment
 import com.juhalion.base.mvvm.models.response.comments.CommentResponse
 import com.juhalion.base.mvvm.networking.ApiResponse
 import com.juhalion.base.mvvm.repositories.CommentRepo
@@ -21,7 +18,7 @@ class CommentViewModel @Inject constructor(private val commentRepo: CommentRepo,
 
     fun getComment(){
         commentData.postValue(ApiResponse.Loading())
-        viewModelScope.launch{
+        viewModelScope.launch {
             val response = commentRepo.getComments()
             commentData.postValue(response)
         }

@@ -1,4 +1,4 @@
-package com.juhalion.base.mvvm.ui.base
+package com.juhalion.base.mvvm.base
 
 import android.app.ProgressDialog
 import android.os.Bundle

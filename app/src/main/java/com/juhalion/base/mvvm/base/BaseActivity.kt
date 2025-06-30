@@ -1,4 +1,4 @@
-package com.juhalion.base.mvvm.ui.base
+package com.juhalion.base.mvvm.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

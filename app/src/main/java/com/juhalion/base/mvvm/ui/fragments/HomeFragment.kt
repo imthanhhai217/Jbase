@@ -10,9 +10,9 @@ import com.callscreen.caller.basemvvm.R
 import com.callscreen.caller.basemvvm.databinding.FragmentHomeBinding
 import com.juhalion.base.mvvm.adapters.CommentAdapter
 import com.juhalion.base.mvvm.networking.ApiResponse
-import com.juhalion.base.mvvm.ui.activities.MainActivity
-import com.juhalion.base.mvvm.ui.base.BaseFragment
-import com.juhalion.base.mvvm.viewmodels.CommentViewModel
+import com.juhalion.base.mvvm.ui.comments.MainActivity
+import com.juhalion.base.mvvm.base.BaseFragment
+import com.juhalion.base.mvvm.ui.comments.CommentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
