@@ -23,13 +23,22 @@
         <com.juhalion.base.mvvm.base.fragment_tab_view.FragmentTabView
             android:id="@+id/ftvDemo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_60sdp"
             android:background="@color/background"
             android:minHeight="@dimen/_40sdp"
+            app:badgeBackground="@drawable/bg_badge_circle_blue"
+            app:badgePositionX="0.65"
+            app:badgePositionY="0.05"
+            app:badgeTextColor="@color/white"
+            app:badgeTextSize="@dimen/_10ssp"
+            app:iconHeightPercent="0.7"
+            app:iconScale="0.8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:showBadge="true"
-            app:showTitle="true" />
+            app:showTitle="true"
+            app:tabPadding="@dimen/_10sdp"
+            app:titleTextSize="@dimen/_10sdp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

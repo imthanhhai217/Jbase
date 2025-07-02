@@ -9,6 +9,8 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.Guideline
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.juhalion.base.mvvm.utils.screen.Screen
@@ -133,4 +135,17 @@ object JuExtendFunction {
         }
         return Screen(res)
     }
+
+    fun Guideline.updateGuidePercent(percent: Float) {
+        (layoutParams as? ConstraintLayout.LayoutParams)?.let {
+            it.guidePercent = percent
+            layoutParams = it
+        }
+    }
+
+    fun Float.dpToPx(context: Context): Int =
+        (this * context.resources.displayMetrics.density).toInt()
+
+    fun Float.spToPx(context: Context): Float =
+        this * context.resources.displayMetrics.scaledDensity
 }

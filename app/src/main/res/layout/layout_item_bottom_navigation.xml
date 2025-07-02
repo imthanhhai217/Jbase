@@ -13,11 +13,18 @@
         app:layout_constraintGuide_percent="0.7" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineBadge"
+        android:id="@+id/guidelineBadgeX"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.65" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBadgeY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.02" />
 
     <!-- ICON -->
     <ImageView
@@ -52,18 +59,17 @@
     <TextView
         android:id="@+id/badgeView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:background="@drawable/bg_badge_circle_red"
         android:gravity="center"
+        android:includeFontPadding="false"
         android:minWidth="@dimen/_12sdp"
         android:minHeight="@dimen/_12sdp"
         android:padding="@dimen/_2sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_10ssp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintStart_toEndOf="@id/guidelineBadge"
-        app:layout_constraintTop_toTopOf="@id/tabIcon"
-        tools:text="9+"
-        tools:visibility="visible" />
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toEndOf="@id/guidelineBadgeX"
+        app:layout_constraintTop_toBottomOf="@id/guidelineBadgeY"
+        tools:text="9+" />
 </androidx.constraintlayout.widget.ConstraintLayout>

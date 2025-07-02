@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <declare-styleable name="FragmentTabView">
+        <!--        Hiển thị title-->
         <attr name="showTitle" format="boolean" />
+        <!--        Hiển thị badge-->
         <attr name="showBadge" format="boolean" />
-        <attr name="badgeColor" format="color" />
-        <attr name="badgeTextColor" format="color" />
-        <attr name="titleTextColor" format="color" />
-        <attr name="titleSelectedTextColor" format="color" />
-        <attr name="badgeTextSize" format="dimension" />
+        <!--        Padding của tab-->
+        <attr name="tabPadding" format="dimension" />
+
+        <!--        Chiều cao của icon so với chiều cao của tab-->
+        <attr name="iconHeightPercent" format="float" />
+        <!--        Scale của icon-->
+        <attr name="iconScale" format="float" />
+        <!--        Text size của title-->
         <attr name="titleTextSize" format="dimension" />
 
+        <!--        badge-->
+        <!--        Text color của badge-->
+        <attr name="badgeTextColor" format="color" />
+        <!--        Text size của badge-->
+        <attr name="badgeTextSize" format="dimension" />
+        <!--        Position của badge-->
+        <attr name="badgePositionX" format="float" />
+        <attr name="badgePositionY" format="float" />
+        <!--        Background của badge-->
+        <attr name="badgeBackground" format="reference" />
     </declare-styleable>
 </resources>
