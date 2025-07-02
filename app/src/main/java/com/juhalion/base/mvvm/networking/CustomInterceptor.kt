@@ -1,7 +1,7 @@
 package com.juhalion.base.mvvm.networking
 
 import android.app.Application
-import com.callscreen.caller.basemvvm.R
+import com.juhalion.base.R
 import com.juhalion.base.mvvm.utils.Utils
 import okhttp3.Interceptor
 import okhttp3.Response

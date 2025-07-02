@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "BaseMVVM"
+rootProject.name = "JuBae"
 include(":app")
  

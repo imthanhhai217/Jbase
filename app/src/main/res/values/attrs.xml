@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="FragmentTabView">
+        <attr name="showTitle" format="boolean" />
+        <attr name="showBadge" format="boolean" />
+        <attr name="badgeColor" format="color" />
+        <attr name="badgeTextColor" format="color" />
+        <attr name="titleTextColor" format="color" />
+        <attr name="titleSelectedTextColor" format="color" />
+        <attr name="badgeTextSize" format="dimension" />
+        <attr name="titleTextSize" format="dimension" />
+
+    </declare-styleable>
+</resources>

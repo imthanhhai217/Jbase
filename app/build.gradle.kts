@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.callscreen.caller.basemvvm"
+    namespace = "com.juhalion.base"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.callscreen.caller.basemvvm"
+        applicationId = "com.juhalion.base"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

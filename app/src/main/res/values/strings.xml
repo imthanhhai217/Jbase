@@ -7,4 +7,9 @@
     <string name="no_internet_connection">No internet connection detected.</string>
     <string name="unable_to_fetch_data">Unable to fetch data</string>
     <string name="some_error_occurred">Some error occurred.</string>
+
+    <string name="tab_home">Home</string>
+    <string name="tab_play">Play</string>
+    <string name="tab_profile">Profile</string>
+    <string name="tab_settings">Settings</string>
 </resources>

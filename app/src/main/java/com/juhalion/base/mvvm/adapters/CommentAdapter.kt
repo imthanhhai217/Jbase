@@ -1,8 +1,8 @@
 package com.juhalion.base.mvvm.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.callscreen.caller.basemvvm.R
-import com.callscreen.caller.basemvvm.databinding.LayoutItemCommentBinding
+import com.juhalion.base.R
+import com.juhalion.base.databinding.LayoutItemCommentBinding
 import com.juhalion.base.mvvm.base.BaseRecyclerViewAdapter
 import com.juhalion.base.mvvm.models.response.comments.Comment
 

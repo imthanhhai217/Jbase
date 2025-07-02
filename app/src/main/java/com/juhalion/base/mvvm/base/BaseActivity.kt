@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.callscreen.caller.basemvvm.R
+import com.juhalion.base.R
 
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     private var _binding: VB? = null
@@ -27,14 +27,14 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     fun addFragment(fragment: Fragment, fragmentTag: String) {
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.fragment_container, fragment, fragmentTag)
+            .add(R.id.container, fragment, fragmentTag)
             .commit()
     }
 
     fun replaceFragment(fragment: Fragment, fragmentTag: String, backStackName: String?) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragment_container, fragment, fragmentTag)
+            .replace(R.id.container, fragment, fragmentTag)
             .addToBackStack(backStackName)
             .commit()
     }

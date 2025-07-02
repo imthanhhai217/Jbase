@@ -1,7 +1,7 @@
 package com.juhalion.base.mvvm.di
 
 import android.app.Application
-import com.callscreen.caller.basemvvm.BuildConfig
+import com.juhalion.base.BuildConfig
 import com.juhalion.base.mvvm.constants.ConstantApi
 import com.juhalion.base.mvvm.networking.ApiService
 import com.juhalion.base.mvvm.networking.CustomInterceptor
