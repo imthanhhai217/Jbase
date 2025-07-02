@@ -94,7 +94,7 @@ object JuExtendFunction {
         val isLive =
             isAdded && !isRemoving && !isDetached && !isStateSaved && activity?.let { !it.isDestroyed && !it.isFinishing } == true
 
-        Log.d("FragmentExt", "isLive: $isLive (${this::class.java.simpleName})")
+        Log.d("Fragment.isLive", "isLive: $isLive (${this::class.java.simpleName})")
 
         if (isLive) callback?.invoke()
         return isLive
