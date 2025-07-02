@@ -106,7 +106,7 @@ class FragmentTabView @JvmOverloads constructor(context: Context, attrs: Attribu
         require(containerID != NO_ID) { "Container ID must be valid" }
         require(listItem.isNotEmpty()) { "Tab list must not be empty" }
 
-        val duplicate = listItem.groupBy { it.tag }.filter { it.value.size > 1 }.keys
+        val duplicate = listItem.groupBy { it.tabType }.filter { it.value.size > 1 }.keys
         require(duplicate.isEmpty()) { "Duplicate TabType detected: $duplicate" }
 
         this.fragmentManager = fragmentManager
@@ -121,19 +121,19 @@ class FragmentTabView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         tabs.forEach { tab ->
             val tagName = tab.fragment::class.simpleName
-            val view = createTabView(tab.tag)
+            val view = createTabView(tab.tabType)
             addView(view)
-            viewMaps[tab.tag] = view
+            viewMaps[tab.tabType] = view
 
             val fragment = fragmentManager.findFragmentByTag(tagName) ?: tab.fragment
-            fragmentMaps[tab.tag] = fragment
+            fragmentMaps[tab.tabType] = fragment
             if (!fragment.isAdded) transaction.add(containerID, fragment, tagName)
             transaction.hide(fragment)
         }
         transaction.commitNowAllowingStateLoss()
 
         // Chuyển sang tab đầu tiên
-        if (tabs.isNotEmpty()) switchTo(tabs.first().tag)
+        if (tabs.isNotEmpty()) switchTo(tabs.first().tabType)
     }
 
     @SuppressLint("CommitTransaction")

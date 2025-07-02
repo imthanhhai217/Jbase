@@ -26,14 +26,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun initView() {
         binding.apply {
             val listItem = listOf(
-                TabItem(TabType.Home, HomeFragment.newInstance()),
-                TabItem(TabType.Play, PlayFragment.newInstance()),
-                TabItem(TabType.Profile, ProfileFragment.newInstance()),
-                TabItem(TabType.Settings, SettingsFragment.newInstance())
+                TabItem(tabType = TabType.Home, fragment = HomeFragment.newInstance()),
+                TabItem(tabType = TabType.Play, fragment = PlayFragment.newInstance()),
+                TabItem(tabType = TabType.Profile, fragment = ProfileFragment.newInstance()),
+                TabItem(tabType = TabType.Settings, fragment = SettingsFragment.newInstance())
             )
 
             ftvDemo.apply {
-                setupTabView(supportFragmentManager, R.id.container, listItem)
+                setupTabView(
+                    fragmentManager = supportFragmentManager,
+                    containerID = R.id.container,
+                    listItem = listItem
+                )
 
                 onTabSelecting = { tab ->
                     when (tab) {
