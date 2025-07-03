@@ -1,6 +1,5 @@
 package com.juhalion.bae.di
 
-import android.app.Application
 import com.juhalion.bae.BuildConfig
 import com.juhalion.bae.config.CommonConfigManager
 import com.juhalion.bae.networking.CustomInterceptor

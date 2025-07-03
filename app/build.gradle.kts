@@ -75,5 +75,7 @@ dependencies {
 
     implementation (libs.constraintlayout)
 
-    implementation(project(":base"))
+//    implementation(project(":base"))
+
+    implementation ("com.github.imthanhhai217:Jbase:v1.0.1")
 }
