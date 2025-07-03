@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.0"
+agp = "8.9.1"
 constraintlayoutVersion = "2.2.1"
 hiltAndroid = "2.56.2"
 kotlin = "2.1.0"
@@ -42,4 +42,5 @@ androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx",
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
 

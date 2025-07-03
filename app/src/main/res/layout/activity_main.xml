@@ -20,7 +20,7 @@
             app:layout_constraintBottom_toTopOf="@id/ftvDemo"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.juhalion.base.mvvm.base.fragment_tab_view.FragmentTabView
+        <com.juhalion.bae.view.fragment_tab_view.BottomNavView
             android:id="@+id/ftvDemo"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_60sdp"

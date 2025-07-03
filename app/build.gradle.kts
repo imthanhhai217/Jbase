@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.juhalion.base"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.juhalion.base"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = 26
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -74,4 +74,6 @@ dependencies {
     implementation(libs.ssp.android)
 
     implementation (libs.constraintlayout)
+
+    implementation(project(":base"))
 }
