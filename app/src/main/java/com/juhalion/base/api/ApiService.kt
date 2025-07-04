@@ -1,7 +1,7 @@
-package com.juhalion.base.networking
+package com.juhalion.base.api
 
 import com.juhalion.base.constants.ConstantApi
-import com.juhalion.base.models.response.comments.CommentResponse
+import com.juhalion.base.models.comment.CommentResponse
 import retrofit2.Response
 import retrofit2.http.GET
 

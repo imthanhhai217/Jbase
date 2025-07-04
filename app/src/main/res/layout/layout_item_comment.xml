@@ -5,7 +5,7 @@
     <data>
         <variable
             name="comment"
-            type="com.juhalion.base.models.Comment" />
+            type="com.juhalion.base.models.comment.Comment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.juhalion.bae.base.BaseRecyclerViewAdapter
 import com.juhalion.base.R
 import com.juhalion.base.databinding.LayoutItemCommentBinding
-import com.juhalion.base.models.Comment
+import com.juhalion.base.models.comment.Comment
 
 class CommentAdapter : BaseRecyclerViewAdapter<Comment, LayoutItemCommentBinding>() {
     override fun getLayout(): Int = R.layout.layout_item_comment

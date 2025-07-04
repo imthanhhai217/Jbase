@@ -1,8 +1,6 @@
-package com.juhalion.base.models.response.comments
-
+package com.juhalion.base.models.comment
 
 import com.google.gson.annotations.SerializedName
-import com.juhalion.base.models.Comment
 
 data class CommentResponse(
     @SerializedName("comments")

@@ -1,6 +1,6 @@
 package com.juhalion.base.di
 
-import com.juhalion.base.networking.ApiService
+import com.juhalion.base.api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
