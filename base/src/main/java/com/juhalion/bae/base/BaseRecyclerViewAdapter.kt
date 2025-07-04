@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseRecyclerViewAdapter<T : Any, VBD : ViewDataBinding> :
     RecyclerView.Adapter<BaseRecyclerViewAdapter.BaseViewHolder<VBD>>() {
+    companion object {
+        const val ITEM_DEFAULT_TYPE = 0
+    }
 
-    private val differ = AsyncListDiffer(
-        DifferCallback(),
-        AsyncDifferConfig.Builder(createDiffCallback()).build()
-    )
+    private val differ =
+        AsyncListDiffer(DifferCallback(), AsyncDifferConfig.Builder(createDiffCallback()).build())
 
     protected val listData: List<T>
         get() = differ.currentList
@@ -40,15 +41,19 @@ abstract class BaseRecyclerViewAdapter<T : Any, VBD : ViewDataBinding> :
 
     var listener: ((view: View, item: T, position: Int) -> Unit)? = null
 
-    abstract fun getLayout(): Int
+    abstract fun getLayout(viewType: Int = ITEM_DEFAULT_TYPE): Int
 
     abstract fun createDiffCallback(): DiffUtil.ItemCallback<T>
 
     override fun getItemCount(): Int = listData.size
 
+    abstract fun getItemViewTypeForPosition(position: Int): Int
+
+    override fun getItemViewType(position: Int) = getItemViewTypeForPosition(position)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<VBD> {
         val inflater = LayoutInflater.from(parent.context)
-        val binding: VBD = DataBindingUtil.inflate(inflater, getLayout(), parent, false)
+        val binding: VBD = DataBindingUtil.inflate(inflater, getLayout(viewType), parent, false)
         return BaseViewHolder(binding)
     }
 

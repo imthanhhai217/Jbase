@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.juhalion.bae.base.BaseFragment
 import com.juhalion.bae.networking.ApiResponse
 import com.juhalion.base.R
-import com.juhalion.base.adapters.CommentAdapter
+import com.juhalion.base.adapters.CommentAdapterSingleType
 import com.juhalion.base.databinding.FragmentHomeBinding
 import com.juhalion.base.ui.comments.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val homeViewModel: HomeViewModel by activityViewModels()
-    private lateinit var commentAdapter: CommentAdapter
+    private lateinit var commentAdapterSingleType: CommentAdapterSingleType
 
     override fun inflateBinding(
         inflater: LayoutInflater,
@@ -35,14 +35,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             commentDataEvent.getContentIfNotHandled()?.let { response ->
                 when (response) {
                     is ApiResponse.Success -> {
-                        dismissLoadingDialog()
-                        commentAdapter = CommentAdapter()
+                        commentAdapterSingleType = CommentAdapterSingleType()
                         response.data?.let { responseData ->
-                            commentAdapter.updateData(responseData.comments)
+                            commentAdapterSingleType.updateData(responseData.comments)
                             binding.rvDemo.layoutManager = LinearLayoutManager(requireActivity())
-                            binding.rvDemo.adapter = commentAdapter
+                            binding.rvDemo.adapter = commentAdapterSingleType
 
-                            commentAdapter.listener = { view, item, position ->
+                            commentAdapterSingleType.listener = { view, item, position ->
                                 when (view.id) {
                                     R.id.tvComment -> {
                                         //Todo do something
@@ -53,11 +52,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
 
                     is ApiResponse.Failed -> {
-                        dismissLoadingDialog()
+//                        dismissLoadingDialog()
                     }
 
                     is ApiResponse.Loading -> {
-                        showLoadingDialog()
+//                        showLoadingDialog()
                     }
                 }
             }

@@ -6,8 +6,10 @@ import com.juhalion.base.R
 import com.juhalion.base.databinding.LayoutItemCommentBinding
 import com.juhalion.base.models.comment.Comment
 
-class CommentAdapter : BaseRecyclerViewAdapter<Comment, LayoutItemCommentBinding>() {
-    override fun getLayout(): Int = R.layout.layout_item_comment
+class CommentAdapterSingleType :
+    BaseRecyclerViewAdapter<Comment, LayoutItemCommentBinding>() {
+
+    override fun getLayout(viewType: Int) = R.layout.layout_item_comment
 
     override fun createDiffCallback(): DiffUtil.ItemCallback<Comment> {
         return object : DiffUtil.ItemCallback<Comment>() {
@@ -24,6 +26,8 @@ class CommentAdapter : BaseRecyclerViewAdapter<Comment, LayoutItemCommentBinding
             }
         }
     }
+
+    override fun getItemViewTypeForPosition(position: Int) = ITEM_DEFAULT_TYPE
 
     override fun bind(
         binding: LayoutItemCommentBinding, item: Comment, position: Int

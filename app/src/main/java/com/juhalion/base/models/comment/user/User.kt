@@ -1,4 +1,4 @@
-package com.juhalion.base.models.user
+package com.juhalion.base.models.comment.user
 
 import com.google.gson.annotations.SerializedName
 
