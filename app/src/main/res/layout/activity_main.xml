@@ -20,9 +20,22 @@
             app:layout_constraintBottom_toTopOf="@id/ftvDemo"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glV1"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glV2"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
         <com.juhalion.base.mvvm.base.fragment_tab_view.FragmentTabView
             android:id="@+id/ftvDemo"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/_60sdp"
             android:background="@color/background"
             android:minHeight="@dimen/_40sdp"
@@ -35,7 +48,8 @@
             app:iconScale="0.8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/glV1"
+            app:layout_constraintEnd_toStartOf="@id/glV2"
             app:showBadge="true"
             app:showTitle="true"
             app:tabPadding="@dimen/_10sdp"

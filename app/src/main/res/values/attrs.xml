@@ -12,8 +12,6 @@
         <attr name="iconHeightPercent" format="float" />
         <!--        Scale của icon-->
         <attr name="iconScale" format="float" />
-        <!--        Text size của title-->
-        <attr name="titleTextSize" format="dimension" />
 
         <!--        badge-->
         <!--        Text color của badge-->
@@ -25,5 +23,12 @@
         <attr name="badgePositionY" format="float" />
         <!--        Background của badge-->
         <attr name="badgeBackground" format="reference" />
+
+        <!--        Title-->
+        <!--        Text size của title-->
+        <attr name="titleTextSize" format="dimension" />
+        <attr name="titleAutoSizeMinTextSize" format="dimension" />
+        <attr name="titleAutoSizeMaxTextSize" format="dimension" />
+        <attr name="titleAutoSizeStepGranularity" format="dimension" />
     </declare-styleable>
 </resources>
