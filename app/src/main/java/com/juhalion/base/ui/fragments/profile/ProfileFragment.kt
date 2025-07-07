@@ -25,17 +25,25 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         profileViewModel.getListUser()
         profileViewModel.getListProduct()
 
         profileViewModel.upsertUser(User(1, "Ju nè"))
         profileViewModel.upsertUser(User(2, "Hải nè"))
+
+
 //        profileViewModel.upsertUser(User(1, "Ju nè update"))
-//        profileViewModel.deleteUser(User(1, "Ju nè update"))
 //        profileViewModel.deleteUser(2)
 
-        profileViewModel.upsertProduct(Product(name = "Sample Product", price = 99.99, inStock = true, image = listOf("https://fastly.picsum.photos/id/5/5000/3334.jpg?hmac=R_jZuyT1jbcfBlpKFxAb0Q3lof9oJ0kREaxsYV3MgCc", "https://fastly.picsum.photos/id/8/5000/3333.jpg?hmac=OeG5ufhPYQBd6Rx1TAldAuF92lhCzAhKQKttGfawWuA")))
+        profileViewModel.upsertProduct(
+            Product(
+                name = "Sample Product", price = 99.99, inStock = true, image = listOf(
+                    "https://fastly.picsum.photos/id/5/5000/3334.jpg?hmac=R_jZuyT1jbcfBlpKFxAb0Q3lof9oJ0kREaxsYV3MgCc",
+                    "https://fastly.picsum.photos/id/8/5000/3333.jpg?hmac=OeG5ufhPYQBd6Rx1TAldAuF92lhCzAhKQKttGfawWuA"
+                )
+
+            )
+        )
         observeViewModel()
     }
 
@@ -44,6 +52,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             launch {
                 profileViewModel.userData.collectLatest { data ->
                     Log.d(TAG, "observeViewModel: userData ${data}")
+                    // Show lên view, etc,...
                 }
             }
             launch {
@@ -52,6 +61,17 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 }
             }
         }
+
+        profileViewModel.demoLiveData.observe(viewLifecycleOwner) {
+            //Tính toán logic
+        }
+
+        profileViewModel.singleLiveData.observe(viewLifecycleOwner) { singleEvent ->
+            singleEvent.getContentIfNotHandled()?.let { data ->
+                //Đọc được dữ liệu
+            }
+        }
+
     }
 
     companion object {
