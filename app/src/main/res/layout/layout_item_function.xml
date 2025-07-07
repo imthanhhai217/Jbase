@@ -5,7 +5,7 @@
 
         <variable
             name="functionItem"
-            type="com.juhalion.base.models.function.JFunction.JFunctionItem" />
+            type="com.juhalion.base.models.function.JFunction.FunctionItem" />
     </data>
 
     <LinearLayout
@@ -21,6 +21,6 @@
             android:layout_height="wrap_content"
             android:text="@{functionItem.title}"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 </layout>

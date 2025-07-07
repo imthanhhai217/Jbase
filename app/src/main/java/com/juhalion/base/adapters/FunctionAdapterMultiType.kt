@@ -16,7 +16,7 @@ class FunctionAdapterMultiType : BaseRecyclerViewAdapter<JFunction, ViewDataBind
 
     override fun getItemViewTypeForPosition(position: Int) = when (listData[position]) {
         is JFunction.HeaderItem -> TYPE_HEADER
-        is JFunction.JFunctionItem -> TYPE_FUNCTION
+        is JFunction.FunctionItem -> TYPE_FUNCTION
     }
 
     override fun getLayout(viewType: Int): Int = when (viewType) {
@@ -31,7 +31,7 @@ class FunctionAdapterMultiType : BaseRecyclerViewAdapter<JFunction, ViewDataBind
                 oldItem: JFunction, newItem: JFunction
             ) = when {
                 oldItem is JFunction.HeaderItem && newItem is JFunction.HeaderItem -> oldItem.title == newItem.title
-                oldItem is JFunction.JFunctionItem && newItem is JFunction.JFunctionItem -> oldItem.title == newItem.title
+                oldItem is JFunction.FunctionItem && newItem is JFunction.FunctionItem -> oldItem.title == newItem.title
                 else -> false
             }
 
@@ -51,7 +51,7 @@ class FunctionAdapterMultiType : BaseRecyclerViewAdapter<JFunction, ViewDataBind
                 binding.headerItem = item
             }
 
-            binding is LayoutItemFunctionBinding && item is JFunction.JFunctionItem -> {
+            binding is LayoutItemFunctionBinding && item is JFunction.FunctionItem -> {
                 binding.functionItem = item
                 binding.root.setOnClickListener {
                     listener?.invoke(binding.root, item, position)
