@@ -1,6 +1,8 @@
 package com.juhalion.base.di
 
 import android.content.Context
+import com.juhalion.bae.di.ROOM
+import com.juhalion.bae.di.ROOM_FROM_ASSETS
 import com.juhalion.bae.di.RoomProvider
 import com.juhalion.base.db.AppDatabase
 import dagger.Module
@@ -16,11 +18,23 @@ object RoomModule {
 
     @Provides
     @Singleton
+    @ROOM
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
-        return RoomProvider.provideDatabase(context = context, databaseName = "jBae.db", removeOldData = false, migrations = emptyArray())
+        return RoomProvider.provideDatabase(context = context, databaseName = "jBae.db", removeOldData = true, migrations = emptyArray())
     }
 
     @Provides
     @Singleton
-    fun provideUserDao(database: AppDatabase) = database.userDao()
+    @ROOM_FROM_ASSETS
+    fun provideDatabaseFromAssets(@ApplicationContext context: Context): AppDatabase {
+        return RoomProvider.provideDatabaseFromAssets(context = context, databaseName = "jBae.db", removeOldData = true, migrations = emptyArray())
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserDao(@ROOM database: AppDatabase) = database.userDao()
+
+    @Provides
+    @Singleton
+    fun provideProductDao(@ROOM database: AppDatabase) = database.productDao()
 }

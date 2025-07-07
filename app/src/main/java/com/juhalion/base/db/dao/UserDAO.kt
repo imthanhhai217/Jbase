@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.juhalion.bae.db.BaseDAO
-import com.juhalion.base.models.comment.user.User
+import com.juhalion.base.models.user.User
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,6 +16,9 @@ interface UserDAO : BaseDAO<User> {
 
     @Delete
     override suspend fun delete(item: User)
+
+    @Query("DELETE FROM users where id = :userID")
+    suspend fun delete(userID: Int)
 
     @Query("SELECT * FROM users")
     override fun fetchListData(): Flow<List<User>>

@@ -9,7 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.juhalion.bae.base.BaseFragment
 import com.juhalion.base.databinding.FragmentProfileBinding
-import com.juhalion.base.models.comment.user.User
+import com.juhalion.base.models.product.Product
+import com.juhalion.base.models.user.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -26,15 +27,29 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         profileViewModel.getListUser()
-        profileViewModel.upsertUser(User(1, "Ju nè"))
+        profileViewModel.getListProduct()
 
+        profileViewModel.upsertUser(User(1, "Ju nè"))
+        profileViewModel.upsertUser(User(2, "Hải nè"))
+//        profileViewModel.upsertUser(User(1, "Ju nè update"))
+//        profileViewModel.deleteUser(User(1, "Ju nè update"))
+//        profileViewModel.deleteUser(2)
+
+        profileViewModel.upsertProduct(Product(name = "Sample Product", price = 99.99, inStock = true, image = listOf("https://fastly.picsum.photos/id/5/5000/3334.jpg?hmac=R_jZuyT1jbcfBlpKFxAb0Q3lof9oJ0kREaxsYV3MgCc", "https://fastly.picsum.photos/id/8/5000/3333.jpg?hmac=OeG5ufhPYQBd6Rx1TAldAuF92lhCzAhKQKttGfawWuA")))
         observeViewModel()
     }
 
     private fun observeViewModel() {
         lifecycleScope.launch {
-            profileViewModel.userData.collectLatest { data ->
-                Log.d(TAG, "observeViewModel: ${data}")
+            launch {
+                profileViewModel.userData.collectLatest { data ->
+                    Log.d(TAG, "observeViewModel: userData ${data}")
+                }
+            }
+            launch {
+                profileViewModel.productData.collectLatest { data ->
+                    Log.d(TAG, "observeViewModel: productData ${data}")
+                }
             }
         }
     }

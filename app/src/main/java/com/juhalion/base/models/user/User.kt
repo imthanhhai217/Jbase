@@ -1,4 +1,4 @@
-package com.juhalion.base.models.comment.user
+package com.juhalion.base.models.user
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
