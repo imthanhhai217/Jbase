@@ -1,4 +1,4 @@
-package com.juhalion.base.ui.fragments
+package com.juhalion.base.ui.fragments.play
 
 import android.os.Bundle
 import android.view.LayoutInflater

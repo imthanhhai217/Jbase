@@ -17,7 +17,7 @@
         android:theme="@style/Theme.BaseMVVM"
         tools:targetApi="31">
         <activity
-            android:name="com.juhalion.base.ui.comments.MainActivity"
+            android:name="com.juhalion.base.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

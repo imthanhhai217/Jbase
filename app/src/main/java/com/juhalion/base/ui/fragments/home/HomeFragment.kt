@@ -1,4 +1,4 @@
-package com.juhalion.base.ui.fragments
+package com.juhalion.base.ui.fragments.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.juhalion.bae.networking.ApiResponse
 import com.juhalion.base.R
 import com.juhalion.base.adapters.CommentAdapterSingleType
 import com.juhalion.base.databinding.FragmentHomeBinding
-import com.juhalion.base.ui.comments.HomeViewModel
+import com.juhalion.base.ui.fragments.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

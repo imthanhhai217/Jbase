@@ -77,5 +77,9 @@ dependencies {
 
     implementation(project(":base"))
 
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
 //    implementation ("com.github.imthanhhai217:Jbase:v1.0.1")
 }

@@ -1,4 +1,4 @@
-package com.juhalion.base.ui.comments
+package com.juhalion.base.ui.fragments.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -19,7 +19,7 @@ class HomeViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
     private val _commentData = MutableLiveData<SingleEvent<ApiResponse<CommentResponse>>>()
-    var commentData :LiveData<SingleEvent<ApiResponse<CommentResponse>>> = _commentData
+    var commentData : LiveData<SingleEvent<ApiResponse<CommentResponse>>> = _commentData
 
     fun getComment() {
         _commentData.value = SingleEvent(ApiResponse.Loading())

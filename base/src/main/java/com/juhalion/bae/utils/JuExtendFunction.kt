@@ -16,6 +16,13 @@ import androidx.fragment.app.Fragment
 import com.juhalion.bae.utils.screen.Screen
 import com.juhalion.bae.utils.screen.ScreenKey
 import com.juhalion.bae.utils.single_click.ClickDebounceManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.stateIn
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -50,8 +57,7 @@ object JuExtendFunction {
 
     @OptIn(ExperimentalContracts::class)
     inline fun View.setOnSingleClickListener(
-        debounceTime: Long = 300L,
-        crossinline onClick: (View) -> Unit
+        debounceTime: Long = 300L, crossinline onClick: (View) -> Unit
     ) {
         contract {
             callsInPlace(onClick, InvocationKind.AT_MOST_ONCE)
@@ -148,4 +154,16 @@ object JuExtendFunction {
 
     fun Float.spToPx(context: Context): Float =
         this * context.resources.displayMetrics.scaledDensity
+
+    fun <T> Flow<T>.asStateFlowIn(
+        scope: CoroutineScope,
+        initialValue: T,
+        started: SharingStarted = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+    ): StateFlow<T> = this.stateIn(scope = scope, initialValue = initialValue, started = started)
+
+    fun <T> Flow<T>.asSharedFlowIn(
+        scope: CoroutineScope,
+        replay: Int = 0,
+        started: SharingStarted = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+    ): SharedFlow<T> = this.shareIn(scope = scope, replay = replay, started = started)
 }

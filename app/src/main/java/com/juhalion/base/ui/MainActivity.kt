@@ -1,4 +1,4 @@
-package com.juhalion.base.ui.comments
+package com.juhalion.base.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -7,10 +7,10 @@ import com.juhalion.bae.view.fragment_tab_view.TabItem
 import com.juhalion.base.R
 import com.juhalion.base.bottom_nav_config.BottomNavConfig
 import com.juhalion.base.databinding.ActivityMainBinding
-import com.juhalion.base.ui.fragments.HomeFragment
-import com.juhalion.base.ui.fragments.PlayFragment
-import com.juhalion.base.ui.fragments.ProfileFragment
-import com.juhalion.base.ui.fragments.SettingsFragment
+import com.juhalion.base.ui.fragments.home.HomeFragment
+import com.juhalion.base.ui.fragments.play.PlayFragment
+import com.juhalion.base.ui.fragments.profile.ProfileFragment
+import com.juhalion.base.ui.fragments.settings.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
