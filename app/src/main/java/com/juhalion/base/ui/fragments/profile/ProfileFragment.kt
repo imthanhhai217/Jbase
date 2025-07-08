@@ -61,17 +61,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 }
             }
         }
-
-        profileViewModel.demoLiveData.observe(viewLifecycleOwner) {
-            //Tính toán logic
-        }
-
-        profileViewModel.singleLiveData.observe(viewLifecycleOwner) { singleEvent ->
-            singleEvent.getContentIfNotHandled()?.let { data ->
-                //Đọc được dữ liệu
-            }
-        }
-
     }
 
     companion object {
