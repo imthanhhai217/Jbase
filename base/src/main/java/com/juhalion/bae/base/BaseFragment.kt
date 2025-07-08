@@ -18,11 +18,11 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     /** Subclass must implement viewBinding inflation */
     protected abstract fun inflateBinding(
-        inflater: LayoutInflater, container: ViewGroup?
+            inflater: LayoutInflater, container: ViewGroup?
     ): VB
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = inflateBinding(inflater, container)
         return binding.root

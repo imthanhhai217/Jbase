@@ -57,7 +57,7 @@ object JuExtendFunction {
 
     @OptIn(ExperimentalContracts::class)
     inline fun View.setOnSingleClickListener(
-        debounceTime: Long = 300L, crossinline onClick: (View) -> Unit
+            debounceTime: Long = 300L, crossinline onClick: (View) -> Unit
     ) {
         contract {
             callsInPlace(onClick, InvocationKind.AT_MOST_ONCE)
@@ -156,14 +156,14 @@ object JuExtendFunction {
         this * context.resources.displayMetrics.scaledDensity
 
     fun <T> Flow<T>.asStateFlowIn(
-        scope: CoroutineScope,
-        initialValue: T,
-        started: SharingStarted = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+            scope: CoroutineScope,
+            initialValue: T,
+            started: SharingStarted = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
     ): StateFlow<T> = this.stateIn(scope = scope, initialValue = initialValue, started = started)
 
     fun <T> Flow<T>.asSharedFlowIn(
-        scope: CoroutineScope,
-        replay: Int = 0,
-        started: SharingStarted = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+            scope: CoroutineScope,
+            replay: Int = 0,
+            started: SharingStarted = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
     ): SharedFlow<T> = this.shareIn(scope = scope, replay = replay, started = started)
 }

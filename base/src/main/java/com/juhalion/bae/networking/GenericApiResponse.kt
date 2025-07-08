@@ -28,11 +28,11 @@ abstract class GenericApiResponse {
         } catch (e: SocketTimeoutException) {
             Log.e(TAG, "apiCall: Connection timed out", e)
             ApiResponse.Failed(code = 408, // Request Timeout
-                message = "Connection to the server was interrupted, please try again!")
+                               message = "Connection to the server was interrupted, please try again!")
         } catch (e: IOException) {
             Log.e(TAG, "apiCall: Network error", e)
             ApiResponse.Failed(code = 502, // Service Unavailable
-                message = "Network error, please check your connection!")
+                               message = "Network error, please check your connection!")
         } catch (e: Exception) {
             e.printStackTrace()
             Log.d(TAG, "apiCall: Exception occurred with response = ${e.message}")

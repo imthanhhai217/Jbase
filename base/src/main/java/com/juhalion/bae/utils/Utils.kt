@@ -20,8 +20,8 @@ object Utils {
             it.getNetworkCapabilities(connectivityManager.activeNetwork)?.apply {
                 result = when {
                     hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                    else -> false
+                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI)     -> true
+                    else                                                 -> false
                 }
             }
         }

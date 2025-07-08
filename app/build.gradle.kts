@@ -81,7 +81,7 @@ dependencies {
     implementation(libs.sdp.android)
     implementation(libs.ssp.android)
 
-    implementation (libs.constraintlayout)
+    implementation(libs.constraintlayout)
 
     implementation(project(":base"))
 

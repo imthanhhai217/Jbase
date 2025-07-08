@@ -11,7 +11,6 @@ import com.juhalion.bae.networking.ApiResponse
 import com.juhalion.base.R
 import com.juhalion.base.adapters.CommentAdapterSingleType
 import com.juhalion.base.databinding.FragmentHomeBinding
-import com.juhalion.base.ui.fragments.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,8 +19,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var commentAdapterSingleType: CommentAdapterSingleType
 
     override fun inflateBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+            inflater: LayoutInflater,
+            container: ViewGroup?,
     ) = FragmentHomeBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,7 +50,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         }
                     }
 
-                    is ApiResponse.Failed -> {
+                    is ApiResponse.Failed  -> {
 //                        dismissLoadingDialog()
                     }
 

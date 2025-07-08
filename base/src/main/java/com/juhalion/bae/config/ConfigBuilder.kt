@@ -1,6 +1,6 @@
 package com.juhalion.bae.config
 
-class ConfigBuilder(private val baseApps: BaseApplication): ConfigInterface {
+class ConfigBuilder(private val baseApps: BaseApplication) : ConfigInterface {
     private var baseUrl = ""
     private var prefName = ""
     private var prefNameSecure = ""

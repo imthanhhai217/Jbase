@@ -16,9 +16,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    application: Application,
-    private val userRepository: UserRepository,
-    private val productRepository: ProductRepository
+        application: Application,
+        private val userRepository: UserRepository,
+        private val productRepository: ProductRepository
 ) : AndroidViewModel(application) {
 
     private val _userData = MutableSharedFlow<List<User>>()

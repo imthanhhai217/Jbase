@@ -15,11 +15,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val commentRepo: CommentRepo, application: Application
+        private val commentRepo: CommentRepo, application: Application
 ) : AndroidViewModel(application) {
 
     private val _commentData = MutableLiveData<SingleEvent<ApiResponse<CommentResponse>>>()
-    var commentData : LiveData<SingleEvent<ApiResponse<CommentResponse>>> = _commentData
+    var commentData: LiveData<SingleEvent<ApiResponse<CommentResponse>>> = _commentData
 
     fun getComment() {
         _commentData.value = SingleEvent(ApiResponse.Loading())

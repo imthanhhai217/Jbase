@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
+import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -23,6 +24,8 @@ import com.juhalion.bae.utils.JuExtendFunction.setOnSingleClickListener
 import com.juhalion.bae.utils.JuExtendFunction.spToPx
 import com.juhalion.bae.utils.JuExtendFunction.updateGuidePercent
 import com.juhalion.bae.utils.JuExtendFunction.visible
+import com.juhalion.bae.view.gesture_detector.SwipeGestureDetector
+import com.juhalion.bae.view.gesture_detector.SwipeInterceptFrameLayout
 
 class BottomNavView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
     LinearLayout(context, attrs) {
@@ -63,7 +66,8 @@ class BottomNavView @JvmOverloads constructor(context: Context, attrs: Attribute
 
                 iconHeightPercent =
                     getFloat(R.styleable.BottomNavView_iconHeightPercent, 0.7f).also {
-                        if (it !in 0f..1f) Log.w(TAG, "iconHeightPercent must be in 0..1. Using default 0.7f")
+                        if (it !in 0f..1f) Log.w(TAG,
+                                                 "iconHeightPercent must be in 0..1. Using default 0.7f")
                     }.coerceIn(0f, 1f)
 
                 iconScale = getFloat(R.styleable.BottomNavView_iconScale, 1f).also {
@@ -71,15 +75,17 @@ class BottomNavView @JvmOverloads constructor(context: Context, attrs: Attribute
                 }.coerceIn(0f, 1f)
 
                 badgePositionX = getFloat(R.styleable.BottomNavView_badgePositionX, 0.65f).also {
-                    if (it !in 0f..1f) Log.w(TAG, "badgePositionX must be in 0..1. Using default 0.65f")
+                    if (it !in 0f..1f) Log.w(TAG,
+                                             "badgePositionX must be in 0..1. Using default 0.65f")
                 }.coerceIn(0f, 1f)
 
                 badgePositionY = getFloat(R.styleable.BottomNavView_badgePositionY, 0.05f).also {
-                    if (it !in 0f..1f) Log.w(TAG, "badgePositionY must be in 0..1. Using default 0.05f")
+                    if (it !in 0f..1f) Log.w(TAG,
+                                             "badgePositionY must be in 0..1. Using default 0.05f")
                 }.coerceIn(0f, 1f)
 
-                badgeBackgroundResId =
-                    getResourceId(R.styleable.BottomNavView_badgeBackground, R.drawable.bg_badge_circle_red)
+                badgeBackgroundResId = getResourceId(R.styleable.BottomNavView_badgeBackground,
+                                                     R.drawable.bg_badge_circle_red)
 
                 badgeTextColor = getColor(R.styleable.BottomNavView_badgeTextColor, Color.WHITE)
                 badgeTextSize =
@@ -94,8 +100,11 @@ class BottomNavView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
     }
 
-    @SuppressLint("CommitTransaction")
-    fun setupTabView(fragmentManager: FragmentManager, containerID: Int, listItem: List<TabItem>) {
+    @SuppressLint("CommitTransaction") fun setupTabView(
+            fragmentManager: FragmentManager,
+            containerID: Int,
+            listItem: List<TabItem>
+    ) {
         require(containerID != NO_ID) { "Container ID must be valid" }
         require(listItem.isNotEmpty()) { "Tab list must not be empty" }
 
@@ -129,8 +138,7 @@ class BottomNavView @JvmOverloads constructor(context: Context, attrs: Attribute
         if (tabs.isNotEmpty()) switchTo(tabs.first().tabInfo)
     }
 
-    @SuppressLint("CommitTransaction")
-    private fun switchTo(tabInfo: TabInfo) {
+    @SuppressLint("CommitTransaction") private fun switchTo(tabInfo: TabInfo) {
         fragmentManager?.let { fm ->
             if (tabInfo == currentTab) return
             val target = fragmentMaps[tabInfo] ?: return
@@ -227,7 +235,8 @@ class BottomNavView @JvmOverloads constructor(context: Context, attrs: Attribute
                 setTextColor(badgeTextColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, badgeTextSize)
             } else {
-                Log.w(TAG, "createTabView: Unnecessary set guide badge percent when showBadge is false!")
+                Log.w(TAG,
+                      "createTabView: Unnecessary set guide badge percent when showBadge is false!")
             }
             gone()
         }
@@ -241,7 +250,8 @@ class BottomNavView @JvmOverloads constructor(context: Context, attrs: Attribute
                 iconGuide?.updateGuidePercent(iconHeightPercent)
             } else {
                 gone()
-                Log.w(TAG, "createTabView: Unnecessary set iconHeightPercent when showTitle is false! If you want change size of icon please use app:iconScale attribute")
+                Log.w(TAG,
+                      "createTabView: Unnecessary set iconHeightPercent when showTitle is false! If you want change size of icon please use app:iconScale attribute")
                 iconView?.updateLayoutParams<ConstraintLayout.LayoutParams> {
                     bottomToTop = ConstraintLayout.LayoutParams.UNSET
                     bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
@@ -256,6 +266,35 @@ class BottomNavView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
 
         return view
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    fun attachSwipeGesture(swipeView: SwipeInterceptFrameLayout) {
+        val gestureDetector = GestureDetector(context, SwipeGestureDetector(onSwipeRight = {
+            moveToPreviousTab()
+        }, onSwipeLeft = {
+            moveToNextTab()
+        }))
+
+        swipeView.swipeListener = { motionEvent ->
+            gestureDetector.onTouchEvent(motionEvent)
+        }
+    }
+
+    private fun currentTabIndex() = tabs.indexOfFirst { it.tabInfo == currentTab }
+
+    private fun moveToPreviousTab() {
+        val currentIndex = currentTabIndex()
+        if (currentIndex > 0) {
+            switchTo(tabs[currentIndex - 1].tabInfo)
+        }
+    }
+
+    private fun moveToNextTab() {
+        val currentIndex = currentTabIndex()
+        if (currentIndex in 0 until tabs.lastIndex) {
+            switchTo(tabs[currentIndex + 1].tabInfo)
+        }
     }
 
     private fun clearAllView() {

@@ -6,15 +6,15 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "products")
 data class Product(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+        @PrimaryKey(autoGenerate = true) val id: Int = 0,
 
-    @ColumnInfo(name = "name") val name: String,
+        @ColumnInfo(name = "name") val name: String,
 
-    @ColumnInfo(name = "price") val price: Double,
+        @ColumnInfo(name = "price") val price: Double,
 
-    @ColumnInfo(name = "in_stock") val inStock: Boolean = true,
+        @ColumnInfo(name = "in_stock") val inStock: Boolean = true,
 
-    @ColumnInfo(name = "image") val image: List<String> = emptyList(),
+        @ColumnInfo(name = "image") val image: List<String> = emptyList(),
 
-    @ColumnInfo(name = "created_at") val createdAt: Long = System.currentTimeMillis()
+        @ColumnInfo(name = "created_at") val createdAt: Long = System.currentTimeMillis()
 )

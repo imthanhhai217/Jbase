@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override fun inflateBinding(
-        inflater: LayoutInflater, container: ViewGroup?
+            inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentProfileBinding.inflate(layoutInflater, container, false)
 
     private val profileViewModel: ProfileViewModel by viewModels()

@@ -32,6 +32,16 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             JFunction.FunctionItem(id = 6, title = "Cài đặt"),
             JFunction.FunctionItem(id = 7, title = "Lịch sử"),
             JFunction.FunctionItem(id = 8, title = "Giới thiệu"),
+
+            JFunction.HeaderItem(id = 9, title = "Tính năng phổ biến 2"),
+            JFunction.FunctionItem(id = 10, title = "Chụp ảnh 2"),
+            JFunction.FunctionItem(id = 11, title = "Quét mã QR 2"),
+            JFunction.FunctionItem(id = 12, title = "Tạo mã QR 2"),
+
+            JFunction.HeaderItem(id = 13, title = "Tiện ích khác 3"),
+            JFunction.FunctionItem(id = 14, title = "Cài đặt 3"),
+            JFunction.FunctionItem(id = 15, title = "Lịch sử 3"),
+            JFunction.FunctionItem(id = 16, title = "Giới thiệu 3"),
         )
     }
 
@@ -39,7 +49,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         withBinding {
             val functionAdapter = FunctionAdapterMultiType()
             rvMultiType.adapter = functionAdapter
-
+            val functionAdapter2 = FunctionAdapterMultiType()
+            rvMultiType2.adapter = functionAdapter2
             functionAdapter.apply {
                 updateData(generateFakeFunctionList())
                 listener = { view, item, position ->
@@ -47,11 +58,16 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 }
             }
 
+            functionAdapter2.apply {
+                updateData(generateFakeFunctionList())
+                listener = { view, item, position ->
+
+                }
+            }
         }
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance() = SettingsFragment()
+        @JvmStatic fun newInstance() = SettingsFragment()
     }
 }

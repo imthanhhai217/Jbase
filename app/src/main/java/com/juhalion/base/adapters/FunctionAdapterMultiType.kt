@@ -15,28 +15,28 @@ class FunctionAdapterMultiType : BaseRecyclerViewAdapter<JFunction, ViewDataBind
     }
 
     override fun getItemViewTypeForPosition(position: Int) = when (listData[position]) {
-        is JFunction.HeaderItem -> TYPE_HEADER
+        is JFunction.HeaderItem   -> TYPE_HEADER
         is JFunction.FunctionItem -> TYPE_FUNCTION
     }
 
     override fun getLayout(viewType: Int): Int = when (viewType) {
         TYPE_FUNCTION -> R.layout.layout_item_function
-        TYPE_HEADER -> R.layout.layout_item_function_header
-        else -> throw IllegalArgumentException("Invalid view type")
+        TYPE_HEADER   -> R.layout.layout_item_function_header
+        else          -> throw IllegalArgumentException("Invalid view type")
     }
 
     override fun createDiffCallback(): DiffUtil.ItemCallback<JFunction> {
         return object : DiffUtil.ItemCallback<JFunction>() {
             override fun areItemsTheSame(
-                oldItem: JFunction, newItem: JFunction
+                    oldItem: JFunction, newItem: JFunction
             ) = when {
-                oldItem is JFunction.HeaderItem && newItem is JFunction.HeaderItem -> oldItem.title == newItem.title
+                oldItem is JFunction.HeaderItem && newItem is JFunction.HeaderItem     -> oldItem.title == newItem.title
                 oldItem is JFunction.FunctionItem && newItem is JFunction.FunctionItem -> oldItem.title == newItem.title
-                else -> false
+                else                                                                   -> false
             }
 
             override fun areContentsTheSame(
-                oldItem: JFunction, newItem: JFunction
+                    oldItem: JFunction, newItem: JFunction
             ): Boolean {
                 return oldItem == newItem
             }
@@ -44,14 +44,14 @@ class FunctionAdapterMultiType : BaseRecyclerViewAdapter<JFunction, ViewDataBind
     }
 
     override fun bind(
-        binding: ViewDataBinding, item: JFunction, position: Int
+            binding: ViewDataBinding, item: JFunction, position: Int
     ) {
         when {
             binding is LayoutItemFunctionHeaderBinding && item is JFunction.HeaderItem -> {
                 binding.headerItem = item
             }
 
-            binding is LayoutItemFunctionBinding && item is JFunction.FunctionItem -> {
+            binding is LayoutItemFunctionBinding && item is JFunction.FunctionItem     -> {
                 binding.functionItem = item
                 binding.root.setOnClickListener {
                     listener?.invoke(binding.root, item, position)

@@ -14,13 +14,13 @@ class CommentAdapterSingleType :
     override fun createDiffCallback(): DiffUtil.ItemCallback<Comment> {
         return object : DiffUtil.ItemCallback<Comment>() {
             override fun areItemsTheSame(
-                oldItem: Comment, newItem: Comment
+                    oldItem: Comment, newItem: Comment
             ): Boolean {
                 return oldItem.postId == newItem.postId
             }
 
             override fun areContentsTheSame(
-                oldItem: Comment, newItem: Comment
+                    oldItem: Comment, newItem: Comment
             ): Boolean {
                 return oldItem == newItem
             }
@@ -30,7 +30,7 @@ class CommentAdapterSingleType :
     override fun getItemViewTypeForPosition(position: Int) = ITEM_DEFAULT_TYPE
 
     override fun bind(
-        binding: LayoutItemCommentBinding, item: Comment, position: Int
+            binding: LayoutItemCommentBinding, item: Comment, position: Int
     ) {
         binding.comment = item
 

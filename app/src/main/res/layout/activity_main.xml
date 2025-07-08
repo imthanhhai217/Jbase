@@ -13,12 +13,20 @@
         android:layout_height="match_parent"
         tools:context=".ui.activities.MainActivity">
 
-        <FrameLayout
-            android:id="@+id/container"
+        <com.juhalion.bae.view.gesture_detector.SwipeInterceptFrameLayout
+            android:id="@+id/swipeWrapper"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintBottom_toTopOf="@id/ftvDemo"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.juhalion.bae.view.gesture_detector.SwipeInterceptFrameLayout>
 
         <com.juhalion.bae.view.fragment_tab_view.BottomNavView
             android:id="@+id/ftvDemo"

@@ -20,14 +20,17 @@ object RoomModule {
     @Singleton
     @ROOM
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
-        return RoomProvider.provideDatabase(context = context, databaseName = "jBae.db", removeOldData = true, migrations = emptyArray())
+        return RoomProvider.provideDatabase(context = context, databaseName = "jBae.db",
+                                            removeOldData = true, migrations = emptyArray())
     }
 
     @Provides
     @Singleton
     @ROOM_FROM_ASSETS
     fun provideDatabaseFromAssets(@ApplicationContext context: Context): AppDatabase {
-        return RoomProvider.provideDatabaseFromAssets(context = context, databaseName = "jBae.db", removeOldData = true, migrations = emptyArray())
+        return RoomProvider.provideDatabaseFromAssets(context = context, databaseName = "jBae.db",
+                                                      removeOldData = true,
+                                                      migrations = emptyArray())
     }
 
     @Provides

@@ -13,8 +13,7 @@ import com.juhalion.base.ui.fragments.profile.ProfileFragment
 import com.juhalion.base.ui.fragments.settings.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+@AndroidEntryPoint class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val TAG = "MainActivity"
     override fun inflateBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,29 +24,32 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun initView() {
         binding.apply {
-            val listItem =
-                listOf(TabItem(BottomNavConfig.Home, fragment = HomeFragment.Companion.newInstance()),
-                    TabItem(BottomNavConfig.Play, fragment = PlayFragment.Companion.newInstance()),
-                    TabItem(BottomNavConfig.Profile, fragment = ProfileFragment.Companion.newInstance()),
-                    TabItem(BottomNavConfig.Settings, fragment = SettingsFragment.Companion.newInstance()))
+            val listItem = listOf(
+                TabItem(BottomNavConfig.Home, fragment = HomeFragment.Companion.newInstance()),
+                TabItem(BottomNavConfig.Play, fragment = PlayFragment.Companion.newInstance()),
+                TabItem(BottomNavConfig.Profile,
+                        fragment = ProfileFragment.Companion.newInstance()),
+                TabItem(BottomNavConfig.Settings,
+                        fragment = SettingsFragment.Companion.newInstance()))
 
             ftvDemo.apply {
-                setupTabView(fragmentManager = supportFragmentManager, containerID = R.id.container, listItem = listItem)
+                setupTabView(fragmentManager = supportFragmentManager, containerID = R.id.container,
+                             listItem = listItem)
 
                 onTabSelecting = { tab ->
                     if (tab is BottomNavConfig) {
                         when (tab) {
-                            BottomNavConfig.Home -> {
+                            BottomNavConfig.Home     -> {
                                 Log.d(TAG, "initView: Home")
                                 true
                             }
 
-                            BottomNavConfig.Play -> {
+                            BottomNavConfig.Play     -> {
                                 Log.d(TAG, "initView: Play")
                                 true
                             }
 
-                            BottomNavConfig.Profile -> {
+                            BottomNavConfig.Profile  -> {
                                 Log.d(TAG, "initView: Profile")
                                 ftvDemo.updateBadge(BottomNavConfig.Profile, null)
                                 true
@@ -63,7 +65,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
 
-                ftvDemo.updateBadge(BottomNavConfig.Profile, 10)
+                updateBadge(BottomNavConfig.Profile, 10)
+                attachSwipeGesture(binding.swipeWrapper)
             }
         }
     }

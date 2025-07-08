@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName
 import com.juhalion.base.models.user.User
 
 data class Comment(
-    @SerializedName("body")
-    val body: String,
-    @SerializedName("id")
-    val id: Int,
-    @SerializedName("postId")
-    val postId: Int,
-    @SerializedName("user")
-    val user: User
+        @SerializedName("body")
+        val body: String,
+        @SerializedName("id")
+        val id: Int,
+        @SerializedName("postId")
+        val postId: Int,
+        @SerializedName("user")
+        val user: User
 )
