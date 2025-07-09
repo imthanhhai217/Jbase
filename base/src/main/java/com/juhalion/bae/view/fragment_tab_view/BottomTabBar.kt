@@ -17,6 +17,7 @@ import com.juhalion.bae.R
 import com.juhalion.bae.databinding.LayoutItemBottomNavigationBinding
 import com.juhalion.bae.utils.JuExtendFunction.getCompatColor
 import com.juhalion.bae.utils.JuExtendFunction.gone
+import com.juhalion.bae.utils.JuExtendFunction.isLive
 import com.juhalion.bae.utils.JuExtendFunction.setOnSingleClickListener
 import com.juhalion.bae.utils.JuExtendFunction.spToPx
 import com.juhalion.bae.utils.JuExtendFunction.updateGuidePercent
@@ -88,6 +89,7 @@ class BottomTabBar @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun setupBottomTabBar(viewPager: ViewPager2, tabItems: List<TabItem>, fragmentActivity: FragmentActivity) {
+        require(fragmentActivity.isLive()){"FragmentActivity is not in a valid state"}
         require(tabItems.isNotEmpty()) { "Tab list must not be empty" }
 
         this.viewPager = viewPager
