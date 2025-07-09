@@ -1,24 +1,20 @@
 package com.juhalion.bae.view.fragment_tab_view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.Guideline
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.juhalion.bae.R
+import com.juhalion.bae.databinding.LayoutItemBottomNavigationBinding
 import com.juhalion.bae.utils.JuExtendFunction.getCompatColor
 import com.juhalion.bae.utils.JuExtendFunction.gone
 import com.juhalion.bae.utils.JuExtendFunction.setOnSingleClickListener
@@ -32,7 +28,7 @@ class BottomTabBar @JvmOverloads constructor(context: Context, attrs: AttributeS
     private var viewPager: ViewPager2? = null
     private var tabs = emptyList<TabItem>()
 
-    private val viewMaps = mutableMapOf<TabInfo, View>()
+    private val viewMaps = mutableMapOf<TabInfo, LayoutItemBottomNavigationBinding>()
     private var currentTab: TabInfo? = null
 
     var onTabSelecting: ((TabInfo) -> Boolean)? = null
@@ -107,20 +103,18 @@ class BottomTabBar @JvmOverloads constructor(context: Context, attrs: AttributeS
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 tabItems.getOrNull(position)?.tabInfo?.let {
-                    if (onTabSelecting?.invoke(it) != false) {
-                        switchTo(it)
-                    }
+                    scrollToTab(it)
                 }
             }
         })
         tabItems.forEach {
-            val view = createTabView(it.tabInfo)
-            addView(view)
-            viewMaps[it.tabInfo] = view
+            val binding = createTabView(it.tabInfo)
+            addView(binding.root)
+            viewMaps[it.tabInfo] = binding
         }
         // Chuyển sang tab đầu tiên
         if (tabs.isNotEmpty()) {
-            switchTo(tabs.first().tabInfo)
+            scrollToTab(tabs.first().tabInfo)
         }
     }
 
@@ -128,20 +122,14 @@ class BottomTabBar @JvmOverloads constructor(context: Context, attrs: AttributeS
         setupBottomTabBar(viewPager, tabItems, fragment.requireActivity())
     }
 
-    @SuppressLint("CommitTransaction") private fun switchTo(tabInfo: TabInfo) {
-        currentTab = tabInfo
-        updateTabSelectedState(tabInfo)
-        scrollToTab(tabInfo)
-    }
-
     private fun updateTabSelectedState(selected: TabInfo) {
-        viewMaps.forEach { (tab, view) ->
+        viewMaps.forEach { (tab, binding) ->
             val selectedState = tab == selected
-            view.findViewById<ImageView>(R.id.tabIcon)?.setImageResource(if (selectedState) tab.iconSelected else tab.iconUnselected)
+            binding.tabIcon.setImageResource(if (selectedState) tab.iconSelected else tab.iconUnselected)
 
             val color = if (selectedState) context.getCompatColor(R.color.tab_selected)
             else context.getCompatColor(R.color.tab_unselected)
-            view.findViewById<TextView>(R.id.tvTitle)?.setTextColor(color)
+            binding.tvTitle.setTextColor(color)
         }
     }
 
@@ -162,7 +150,7 @@ class BottomTabBar @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun bindBadge(badgeMaps: Map<TabInfo, Int?>) {
         if (!showBadge) return
         badgeMaps.forEach { (tab, count) ->
-            val badge = viewMaps[tab]?.findViewById<TextView?>(R.id.badgeView) ?: return@forEach
+            val badge = viewMaps[tab]?.badgeView ?: return@forEach
             if (count != null && count > 0) {
                 badge.apply {
                     visible()
@@ -174,66 +162,59 @@ class BottomTabBar @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    private fun createTabView(itemTag: TabInfo): View {
+    private fun createTabView(itemTag: TabInfo): LayoutItemBottomNavigationBinding {
         val view = LayoutInflater.from(context).inflate(R.layout.layout_item_bottom_navigation, this, false).apply {
             layoutParams = LayoutParams(0, LayoutParams.MATCH_PARENT).apply {
                 weight = 1f
             }
             setPadding(tabPadding, tabPadding, tabPadding, tabPadding)
         }
-
-        val iconView = view.findViewById<ImageView>(R.id.tabIcon)
-        val titleView = view.findViewById<TextView>(R.id.tvTitle)
-        val badgeView = view.findViewById<TextView?>(R.id.badgeView)
-        val iconGuide = view.findViewById<Guideline>(R.id.guidelineIcon)
-        val badgeGuideX = view.findViewById<Guideline>(R.id.guidelineBadgeX)
-        val badgeGuideY = view.findViewById<Guideline>(R.id.guidelineBadgeY)
-
-        iconView?.apply {
-            setImageResource(itemTag.iconUnselected)
-            scaleX = iconScale
-            scaleY = iconScale
-        }
-
-        badgeView?.apply {
-            if (showBadge) {
-                badgeGuideX?.updateGuidePercent(badgePositionX)
-                badgeGuideY?.updateGuidePercent(badgePositionY)
-
-                setBackgroundResource(badgeBackgroundResId)
-                setTextColor(badgeTextColor)
-                setTextSize(TypedValue.COMPLEX_UNIT_PX, badgeTextSize)
-            } else {
-                Log.w(TAG, "createTabView: Unnecessary set guide badge percent when showBadge is false!")
+        val binding = LayoutItemBottomNavigationBinding.bind(view)
+        binding.apply {
+            tabIcon.apply {
+                setImageResource(itemTag.iconUnselected)
+                scaleX = iconScale
+                scaleY = iconScale
             }
-            gone()
-        }
 
-        titleView?.apply {
-            if (showTitle) {
-                visible()
-                setText(itemTag.titleRes)
-                setTextSize(TypedValue.COMPLEX_UNIT_PX, titleTextSize)
+            badgeView.apply {
+                if (showBadge) {
+                    guidelineBadgeX.updateGuidePercent(badgePositionX)
+                    guidelineBadgeY.updateGuidePercent(badgePositionY)
 
-                iconGuide?.updateGuidePercent(iconHeightPercent)
-            } else {
+                    setBackgroundResource(badgeBackgroundResId)
+                    setTextColor(badgeTextColor)
+                    setTextSize(TypedValue.COMPLEX_UNIT_PX, badgeTextSize)
+                } else {
+                    Log.w(TAG, "createTabView: Unnecessary set guide badge percent when showBadge is false!")
+                }
                 gone()
-                Log.w(TAG,
-                    "createTabView: Unnecessary set iconHeightPercent when showTitle is false! If you want change size of icon please use app:iconScale attribute")
-                iconView?.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                    bottomToTop = ConstraintLayout.LayoutParams.UNSET
-                    bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+            }
+
+            tvTitle.apply {
+                if (showTitle) {
+                    visible()
+                    setText(itemTag.titleRes)
+                    setTextSize(TypedValue.COMPLEX_UNIT_PX, titleTextSize)
+
+                    guidelineIcon.updateGuidePercent(iconHeightPercent)
+                } else {
+                    gone()
+                    Log.w(TAG,
+                        "createTabView: Unnecessary set iconHeightPercent when showTitle is false! If you want change size of icon please use app:iconScale attribute")
+                    tabIcon.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                        bottomToTop = ConstraintLayout.LayoutParams.UNSET
+                        bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+                    }
                 }
             }
-        }
 
-        view.setOnSingleClickListener {
-            if (onTabSelecting?.invoke(itemTag) != false) {
-                switchTo(itemTag)
+            root.setOnSingleClickListener {
+                scrollToTab(itemTag)
             }
         }
 
-        return view
+        return binding
     }
 
     private fun currentTabIndex() = tabs.indexOfFirst { it.tabInfo == currentTab }
@@ -242,6 +223,8 @@ class BottomTabBar @JvmOverloads constructor(context: Context, attrs: AttributeS
         val index = tabs.indexOfFirst { it.tabInfo == targetTabInfo }
         if (index != -1) {
             if (onTabSelecting?.invoke(targetTabInfo) != false) {
+                currentTab = targetTabInfo
+                updateTabSelectedState(targetTabInfo)
                 viewPager?.setCurrentItem(index, true)
             }
         }
