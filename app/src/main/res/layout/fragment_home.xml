@@ -9,13 +9,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FF5252"
         tools:context=".ui.fragments.home.HomeFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvDemo"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white" />
+            android:layout_height="match_parent" />
 
     </FrameLayout>
 </layout>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import com.juhalion.bae.base.BaseActivity
 import com.juhalion.bae.view.fragment_tab_view.TabItem
+import com.juhalion.bae.view.fragment_tab_view.animation.PageAnimationType
 import com.juhalion.base.bottom_nav_config.BottomNavConfig
 import com.juhalion.base.databinding.ActivityMainBinding
 import com.juhalion.base.ui.fragments.home.HomeFragment
@@ -30,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
             tsbDemo.apply {
                 setupBottomTabBar(viewPager = binding.vpDemo, tabItems = listItem, fragmentActivity = this@MainActivity)
-
+                transformAnimation(PageAnimationType.ZOOM_OUT)
                 onTabSelecting = { tab ->
                     if (tab is BottomNavConfig) {
                         when (tab) {

@@ -21,6 +21,8 @@ import com.juhalion.bae.utils.JuExtendFunction.setOnSingleClickListener
 import com.juhalion.bae.utils.JuExtendFunction.spToPx
 import com.juhalion.bae.utils.JuExtendFunction.updateGuidePercent
 import com.juhalion.bae.utils.JuExtendFunction.visible
+import com.juhalion.bae.view.fragment_tab_view.animation.PageAnimationType
+import com.juhalion.bae.view.fragment_tab_view.animation.PageTransformer
 
 class BottomTabBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
     private val TAG = "BottomTabBar"
@@ -120,6 +122,10 @@ class BottomTabBar @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun setupBottomTabBar(viewPager: ViewPager2, tabItems: List<TabItem>, fragment: Fragment) {
         setupBottomTabBar(viewPager, tabItems, fragment.requireActivity())
+    }
+
+    fun transformAnimation(pageAnimationType: PageAnimationType) {
+        viewPager?.setPageTransformer(PageTransformer(pageAnimationType))
     }
 
     private fun updateTabSelectedState(selected: TabInfo) {
