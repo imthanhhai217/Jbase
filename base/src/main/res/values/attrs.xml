@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="BottomNavView">
+    <declare-styleable name="BottomTabBar">
         <!--        Hiển thị title-->
         <attr name="showTitle" format="boolean" />
         <!--        Hiển thị badge-->

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import com.juhalion.bae.base.BaseActivity
 import com.juhalion.bae.view.fragment_tab_view.TabItem
-import com.juhalion.base.R
 import com.juhalion.base.bottom_nav_config.BottomNavConfig
 import com.juhalion.base.databinding.ActivityMainBinding
 import com.juhalion.base.ui.fragments.home.HomeFragment
@@ -24,17 +23,13 @@ import dagger.hilt.android.AndroidEntryPoint
 
     private fun initView() {
         binding.apply {
-            val listItem = listOf(
-                TabItem(BottomNavConfig.Home, fragment = HomeFragment.Companion.newInstance()),
-                TabItem(BottomNavConfig.Play, fragment = PlayFragment.Companion.newInstance()),
-                TabItem(BottomNavConfig.Profile,
-                        fragment = ProfileFragment.Companion.newInstance()),
-                TabItem(BottomNavConfig.Settings,
-                        fragment = SettingsFragment.Companion.newInstance()))
+            val listItem = listOf(TabItem(tabInfo = BottomNavConfig.Home, fragment = HomeFragment.Companion.newInstance()),
+                TabItem(tabInfo = BottomNavConfig.Play, fragment = PlayFragment.Companion.newInstance()),
+                TabItem(tabInfo = BottomNavConfig.Profile, fragment = ProfileFragment.Companion.newInstance()),
+                TabItem(tabInfo = BottomNavConfig.Settings, fragment = SettingsFragment.Companion.newInstance()))
 
-            ftvDemo.apply {
-                setupTabView(fragmentManager = supportFragmentManager, containerID = R.id.container,
-                             listItem = listItem)
+            tsbDemo.apply {
+                setupBottomTabBar(viewPager = binding.vpDemo, tabItems = listItem, fragmentActivity = this@MainActivity)
 
                 onTabSelecting = { tab ->
                     if (tab is BottomNavConfig) {
@@ -51,7 +46,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
                             BottomNavConfig.Profile  -> {
                                 Log.d(TAG, "initView: Profile")
-                                ftvDemo.updateBadge(BottomNavConfig.Profile, null)
+                                tsbDemo.updateBadge(BottomNavConfig.Profile, null)
                                 true
                             }
 
@@ -66,7 +61,6 @@ import dagger.hilt.android.AndroidEntryPoint
                 }
 
                 updateBadge(BottomNavConfig.Profile, 10)
-                attachSwipeGesture(binding.swipeWrapper)
             }
         }
     }
