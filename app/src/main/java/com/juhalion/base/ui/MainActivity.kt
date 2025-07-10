@@ -31,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
             tsbDemo.apply {
                 setupBottomTabBar(viewPager = binding.vpDemo, tabItems = listItem, fragmentActivity = this@MainActivity)
-                transformAnimation(PageAnimationType.ZOOM_OUT)
+                transformAnimation(PageAnimationType.SLIDE_FADE)
                 onTabSelecting = { tab ->
                     if (tab is BottomNavConfig) {
                         when (tab) {
