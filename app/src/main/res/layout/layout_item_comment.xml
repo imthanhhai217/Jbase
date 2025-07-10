@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="comment"
-            type="com.juhalion.base.mvvm.models.response.comments.Comment" />
+            type="com.juhalion.base.models.comment.Comment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,11 +15,11 @@
 
         <TextView
             android:id="@+id/tvComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@{comment.body}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
