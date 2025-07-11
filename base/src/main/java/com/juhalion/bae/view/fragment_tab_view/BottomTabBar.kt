@@ -25,13 +25,19 @@ import com.juhalion.bae.view.fragment_tab_view.animation.PageAnimationType
 import com.juhalion.bae.view.fragment_tab_view.animation.PageTransformer
 
 class BottomTabBar @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null
+    context: Context, attrs: AttributeSet? = null
 ) : LinearLayout(context, attrs) {
 
     private companion object {
         const val TAG = "BottomTabBar"
         const val MAX_BADGE_COUNT = 99
+        const val DEFAULT_ICON_HEIGHT_PERCENT = 0.7f
+        const val DEFAULT_ICON_SCALE = 1f
+        const val DEFAULT_BADGE_POSITION_X = 0.65f
+        const val DEFAULT_BADGE_POSITION_Y = 0.05f
+        const val DEFAULT_TEXT_SIZE_SP = 12f
+        const val DEFAULT_BADGE_TEXT_SIZE_SP = 12f
+        const val DEFAULT_TITLE_TEXT_SIZE_SP = 12f
     }
 
     // Core properties
@@ -50,14 +56,14 @@ class BottomTabBar @JvmOverloads constructor(
     // Configuration
     private var showTitle = false
     private var showBadge = false
-    private var iconHeightPercent = 0.7f
-    private var iconScale = 1f
-    private var badgePositionX = 0.65f
-    private var badgePositionY = 0.05f
+    private var iconHeightPercent = DEFAULT_ICON_HEIGHT_PERCENT
+    private var iconScale = DEFAULT_ICON_SCALE
+    private var badgePositionX = DEFAULT_BADGE_POSITION_X
+    private var badgePositionY = DEFAULT_BADGE_POSITION_Y
     private var badgeBackgroundResId = R.drawable.bg_badge_circle_red
     private var badgeTextColor = Color.WHITE
-    private var badgeTextSize = 0f
-    private var titleTextSize = 0f
+    private var badgeTextSize = DEFAULT_BADGE_TEXT_SIZE_SP
+    private var titleTextSize = DEFAULT_TITLE_TEXT_SIZE_SP
     private var tabPadding = 0
 
     // Cached resources - lazy initialization for performance
@@ -88,15 +94,15 @@ class BottomTabBar @JvmOverloads constructor(
                 showTitle = getBoolean(R.styleable.BottomTabBar_showTitle, false)
                 showBadge = getBoolean(R.styleable.BottomTabBar_showBadge, false)
 
-                iconHeightPercent = getFloat(R.styleable.BottomTabBar_iconHeightPercent, 0.7f).coerceIn(0f, 1f)
-                iconScale = getFloat(R.styleable.BottomTabBar_iconScale, 1f).coerceIn(0f, 1f)
-                badgePositionX = getFloat(R.styleable.BottomTabBar_badgePositionX, 0.65f).coerceIn(0f, 1f)
-                badgePositionY = getFloat(R.styleable.BottomTabBar_badgePositionY, 0.05f).coerceIn(0f, 1f)
+                iconHeightPercent = getFloat(R.styleable.BottomTabBar_iconHeightPercent, DEFAULT_ICON_HEIGHT_PERCENT).coerceIn(0f, 1f)
+                iconScale = getFloat(R.styleable.BottomTabBar_iconScale, DEFAULT_ICON_SCALE).coerceIn(0f, 1f)
+                badgePositionX = getFloat(R.styleable.BottomTabBar_badgePositionX, DEFAULT_BADGE_POSITION_X).coerceIn(0f, 1f)
+                badgePositionY = getFloat(R.styleable.BottomTabBar_badgePositionY, DEFAULT_BADGE_POSITION_Y).coerceIn(0f, 1f)
 
                 badgeBackgroundResId = getResourceId(R.styleable.BottomTabBar_badgeBackground, R.drawable.bg_badge_circle_red)
                 badgeTextColor = getColor(R.styleable.BottomTabBar_badgeTextColor, Color.WHITE)
-                badgeTextSize = getDimension(R.styleable.BottomTabBar_badgeTextSize, 12f.spToPx(context))
-                titleTextSize = getDimension(R.styleable.BottomTabBar_titleTextSize, 12f.spToPx(context))
+                badgeTextSize = getDimension(R.styleable.BottomTabBar_badgeTextSize, DEFAULT_BADGE_TEXT_SIZE_SP.spToPx(context))
+                titleTextSize = getDimension(R.styleable.BottomTabBar_titleTextSize, DEFAULT_TITLE_TEXT_SIZE_SP.spToPx(context))
                 tabPadding = getDimensionPixelSize(R.styleable.BottomTabBar_tabPadding, 0)
 
             } finally {
@@ -109,19 +115,32 @@ class BottomTabBar @JvmOverloads constructor(
      * Setup with FragmentActivity - streamlined
      */
     fun setupBottomTabBar(
-        viewPager: ViewPager2,
-        tabItems: List<TabItem>,
-        fragmentActivity: FragmentActivity
+        viewPager: ViewPager2, tabItems: List<TabItem>, fragmentActivity: FragmentActivity
     ) {
         require(fragmentActivity.isLive()) { "FragmentActivity is not in a valid state" }
         require(tabItems.isNotEmpty()) { "Tab list must not be empty" }
 
-        // Initialize core properties
-        this.viewPager = viewPager
-        this.tabs = tabItems
-        this.currentTab = null
-        clearAllView()
+        initializeTabBar(viewPager, tabItems)
 
+        setupViewPager(viewPager, fragmentActivity, tabItems)
+
+        creatTabViews(tabItems)
+
+        selectInitialTab()
+    }
+
+    private fun creatTabViews(tabItems: List<TabItem>) {
+        // Create tab views
+        tabItems.forEach { tabItem ->
+            val binding = createTabView(tabItem.tabInfo)
+            addView(binding.root)
+            viewMaps[tabItem.tabInfo] = binding
+        }
+    }
+
+    private fun setupViewPager(
+        viewPager: ViewPager2, fragmentActivity: FragmentActivity, tabItems: List<TabItem>
+    ) {
         // Setup ViewPager adapter
         viewPager.adapter = object : FragmentStateAdapter(fragmentActivity) {
             override fun createFragment(position: Int) = tabItems[position].fragment
@@ -137,18 +156,20 @@ class BottomTabBar @JvmOverloads constructor(
                 }
             }
         }.also { viewPager.registerOnPageChangeCallback(it) }
+    }
 
-        // Create tab views
-        tabItems.forEach { tabItem ->
-            val binding = createTabView(tabItem.tabInfo)
-            addView(binding.root)
-            viewMaps[tabItem.tabInfo] = binding
-        }
+    private fun initializeTabBar(
+        viewPager: ViewPager2, tabItems: List<TabItem>
+    ) {
+        // Initialize core properties
+        this.viewPager = viewPager
+        this.tabs = tabItems
+        this.currentTab = null
+        clearAllView()
+    }
 
-        // Select first tab
-        if (tabs.isNotEmpty()) {
-            scrollToTab(tabs.first().tabInfo)
-        }
+    private fun selectInitialTab() {
+        tabs.firstOrNull()?.tabInfo?.let(::scrollToTab)
     }
 
     /**
@@ -229,12 +250,10 @@ class BottomTabBar @JvmOverloads constructor(
      * Create tab view - optimized with minimal allocations
      */
     private fun createTabView(itemTag: TabInfo): LayoutItemBottomNavigationBinding {
-        val view = LayoutInflater.from(context)
-            .inflate(R.layout.layout_item_bottom_navigation, this, false)
-            .apply {
-                layoutParams = tabLayoutParams // Reuse cached params
-                setPadding(tabPadding, tabPadding, tabPadding, tabPadding)
-            }
+        val view = LayoutInflater.from(context).inflate(R.layout.layout_item_bottom_navigation, this, false).apply {
+            layoutParams = tabLayoutParams // Reuse cached params
+            setPadding(tabPadding, tabPadding, tabPadding, tabPadding)
+        }
 
         val binding = LayoutItemBottomNavigationBinding.bind(view)
 
