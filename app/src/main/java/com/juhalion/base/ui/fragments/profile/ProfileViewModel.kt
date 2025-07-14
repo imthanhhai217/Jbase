@@ -8,6 +8,8 @@ import androidx.credentials.Credential
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
+import androidx.credentials.PasswordCredential
+import androidx.credentials.PublicKeyCredential
 import androidx.databinding.ObservableField
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
@@ -16,7 +18,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -67,10 +69,14 @@ class ProfileViewModel @Inject constructor(
         val googleIdOption = GetGoogleIdOption.Builder()
             // Your server's client ID, not your Android client ID.
             .setServerClientId(getString(application, R.string.default_web_client_id))
+            .setFilterByAuthorizedAccounts(true)
+            .setAutoSelectEnabled(true)
             .build()
 
         // Create the Credential Manager request
-        val request = GetCredentialRequest.Builder().addCredentialOption(googleIdOption).build()
+        val request = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
 
         viewModelScope.launch(Dispatchers.Main) {
             try {
@@ -82,16 +88,55 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun handleSignIn(activity: Activity, credential: Credential) {
-        // Check if credential is of type Google ID
-        if (credential is CustomCredential && credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-            // Create Google ID Token
-            val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+    fun handleSignIn(activity: Activity, result: Credential) {
+        // Handle the successfully returned credential.
+        val credential = result
+        val responseJson: String
 
-            // Sign in to Firebase with using the token
-            firebaseAuthWithGoogle(activity, googleIdTokenCredential.idToken)
-        } else {
-            Log.w(TAG, "Credential is not of type Google ID!")
+        when (credential) {
+
+            // Passkey credential
+            is PublicKeyCredential -> {
+                // Share responseJson such as a GetCredentialResponse to your server to validate and
+                // authenticate
+                responseJson = credential.authenticationResponseJson
+            }
+
+            // Password credential
+            is PasswordCredential -> {
+                // Send ID and password to your server to validate and authenticate.
+                val username = credential.id
+                val password = credential.password
+            }
+
+            // GoogleIdToken credential
+            is CustomCredential -> {
+                if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                    try {
+                        // Use googleIdTokenCredential and extract the ID to validate and
+                        // authenticate on your server.
+                        val googleIdTokenCredential = GoogleIdTokenCredential
+                            .createFrom(credential.data)
+                        // You can use the members of googleIdTokenCredential directly for UX
+                        // purposes, but don't use them to store or control access to user
+                        // data. For that you first need to validate the token:
+                        // pass googleIdTokenCredential.getIdToken() to the backend server.
+                        // see [validation instructions](https://developers.google.com/identity/gsi/web/guides/verify-google-id-token)
+
+                        firebaseAuthWithGoogle(activity, googleIdTokenCredential.idToken)
+                    } catch (e: GoogleIdTokenParsingException) {
+                        Log.e(TAG, "Received an invalid google id token response", e)
+                    }
+                } else {
+                    // Catch any unrecognized custom credential type here.
+                    Log.e(TAG, "Unexpected type of credential")
+                }
+            }
+
+            else -> {
+                // Catch any unrecognized credential type here.
+                Log.e(TAG, "Unexpected type of credential")
+            }
         }
     }
 
