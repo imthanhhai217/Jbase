@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "131293760901",
+    "project_id": "android56-demo",
+    "storage_bucket": "android56-demo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131293760901:android:c1056a5d067e2e9463c8ec",
+        "android_client_info": {
+          "package_name": "com.juhalion.base"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131293760901-h1v87jig6b8dgcllphngsig0lfkbs21e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.juhalion.base",
+            "certificate_hash": "5b9d0eda36996996ebc426dbb6e4c3a3dfe91674"
+          }
+        },
+        {
+          "client_id": "131293760901-jj8etdmp71m7dc4dj1abhfhnsajtkl27.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOxV6uX9ytWCRPGhdTMrQd-3Iu5pJowOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "131293760901-jj8etdmp71m7dc4dj1abhfhnsajtkl27.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

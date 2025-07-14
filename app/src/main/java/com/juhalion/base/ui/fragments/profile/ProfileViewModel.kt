@@ -1,8 +1,17 @@
 package com.juhalion.base.ui.fragments.profile
 
+import android.app.Activity
 import android.app.Application
+import android.util.Log
+import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.auth
 import com.juhalion.base.models.product.Product
 import com.juhalion.base.models.user.User
 import com.juhalion.base.repositories.ProductRepository
@@ -16,13 +25,75 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-        application: Application,
-        private val userRepository: UserRepository,
-        private val productRepository: ProductRepository
+    application: Application,
+    private val userRepository: UserRepository,
+    private val productRepository: ProductRepository
 ) : AndroidViewModel(application) {
-
+    private val TAG = "ProfileViewModel"
     private val _userData = MutableSharedFlow<List<User>>()
     val userData = _userData.asSharedFlow()
+
+    private val firebaseAuth: FirebaseAuth
+
+    val email = ObservableField<String>()
+    val password = ObservableField<String>()
+    val isLogin = ObservableField<Boolean>()
+
+    init {
+        firebaseAuth = Firebase.auth
+    }
+
+    fun checkLoginState() = updateUI(firebaseAuth.currentUser)
+
+    private val _loginMessage = MutableLiveData<String>()
+    val loginMessage: LiveData<String> = _loginMessage
+
+    fun createAccountWithEmail(activity: Activity) {
+        val userEmail = email.get()
+        if (userEmail.isNullOrEmpty()) {
+            _loginMessage.value = "Please enter email"
+            return
+        }
+
+        val userPassword = password.get()
+        if (userPassword.isNullOrEmpty()) {
+            _loginMessage.value = "Please enter password"
+            return
+        }
+
+        firebaseAuth.createUserWithEmailAndPassword(userEmail.trim(), userPassword.trim())
+            .addOnCompleteListener(activity) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "createUserWithEmail:success")
+                    _loginMessage.value = "createUserWithEmail:success"
+                    val user = firebaseAuth.currentUser
+                    updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                    _loginMessage.value = "createUserWithEmail:failure, ${task.exception?.message}"
+                    updateUI(null)
+                }
+            }.addOnFailureListener {
+                Log.w(TAG, "createUserWithEmail:failure ")
+                updateUI(null)
+            }
+    }
+
+    private fun updateUI(user: FirebaseUser?) {
+        if (user != null) {
+            email.set(user.email)
+            isLogin.set(true)
+        } else {
+            isLogin.set(false)
+        }
+    }
+
+    fun logoutFirebase() {
+        firebaseAuth.signOut()
+        isLogin.set(false)
+    }
 
     fun getListUser() {
         viewModelScope.launch {

@@ -5,12 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.juhalion.bae.base.BaseFragment
+import com.juhalion.bae.utils.JuExtendFunction.setOnSingleClickListener
 import com.juhalion.base.databinding.FragmentProfileBinding
-import com.juhalion.base.models.product.Product
-import com.juhalion.base.models.user.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -18,33 +18,38 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override fun inflateBinding(
-            inflater: LayoutInflater, container: ViewGroup?
+        inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentProfileBinding.inflate(layoutInflater, container, false)
 
     private val profileViewModel: ProfileViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        profileViewModel.getListUser()
-        profileViewModel.getListProduct()
-
-        profileViewModel.upsertUser(User(1, "Ju nè"))
-        profileViewModel.upsertUser(User(2, "Hải nè"))
-
-
-//        profileViewModel.upsertUser(User(1, "Ju nè update"))
-//        profileViewModel.deleteUser(2)
-
-        profileViewModel.upsertProduct(
-            Product(
-                name = "Sample Product", price = 99.99, inStock = true, image = listOf(
-                    "https://fastly.picsum.photos/id/5/5000/3334.jpg?hmac=R_jZuyT1jbcfBlpKFxAb0Q3lof9oJ0kREaxsYV3MgCc",
-                    "https://fastly.picsum.photos/id/8/5000/3333.jpg?hmac=OeG5ufhPYQBd6Rx1TAldAuF92lhCzAhKQKttGfawWuA"
-                )
-
-            )
-        )
+        initView()
+        profileViewModel.checkLoginState()
         observeViewModel()
+    }
+
+    private fun initView() {
+        withBinding {
+            viewModel = profileViewModel
+
+            btnRegisterWithEmail.setOnSingleClickListener {
+                createAccountWithEmail()
+            }
+
+            btnLogout.setOnSingleClickListener {
+                signOut()
+            }
+        }
+    }
+
+    private fun signOut() {
+        profileViewModel.logoutFirebase()
+    }
+
+    private fun createAccountWithEmail() {
+        profileViewModel.createAccountWithEmail(requireActivity())
     }
 
     private fun observeViewModel() {
@@ -61,7 +66,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 }
             }
         }
+
+        profileViewModel.loginMessage.observe(viewLifecycleOwner) { message ->
+            Toast.makeText(context, "$message", Toast.LENGTH_SHORT).show()
+        }
     }
+
 
     companion object {
         @JvmStatic
