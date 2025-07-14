@@ -41,7 +41,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             btnLogout.setOnSingleClickListener {
                 signOut()
             }
+
+            btnGoogleSignIn.setOnSingleClickListener {
+                signInWithGoogleAccount()
+            }
         }
+    }
+
+    private fun signInWithGoogleAccount() {
+        profileViewModel.signInWithGoogle(requireActivity())
     }
 
     private fun signOut() {

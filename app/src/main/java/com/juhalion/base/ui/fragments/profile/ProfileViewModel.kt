@@ -3,20 +3,32 @@ package com.juhalion.base.ui.fragments.profile
 import android.app.Activity
 import android.app.Application
 import android.util.Log
+import androidx.core.content.ContextCompat.getString
+import androidx.credentials.Credential
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
 import androidx.databinding.ObservableField
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
+import com.juhalion.base.R
 import com.juhalion.base.models.product.Product
 import com.juhalion.base.models.user.User
 import com.juhalion.base.repositories.ProductRepository
 import com.juhalion.base.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -25,7 +37,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    application: Application,
+    private val application: Application,
     private val userRepository: UserRepository,
     private val productRepository: ProductRepository
 ) : AndroidViewModel(application) {
@@ -33,7 +45,7 @@ class ProfileViewModel @Inject constructor(
     private val _userData = MutableSharedFlow<List<User>>()
     val userData = _userData.asSharedFlow()
 
-    private val firebaseAuth: FirebaseAuth
+    val firebaseAuth: FirebaseAuth
 
     val email = ObservableField<String>()
     val password = ObservableField<String>()
@@ -47,6 +59,60 @@ class ProfileViewModel @Inject constructor(
 
     private val _loginMessage = MutableLiveData<String>()
     val loginMessage: LiveData<String> = _loginMessage
+    private lateinit var credentialManager: CredentialManager
+
+    fun signInWithGoogle(activity: FragmentActivity) {
+        credentialManager = CredentialManager.create(activity)
+
+        val googleIdOption = GetGoogleIdOption.Builder()
+            // Your server's client ID, not your Android client ID.
+            .setServerClientId(getString(application, R.string.default_web_client_id))
+            .build()
+
+        // Create the Credential Manager request
+        val request = GetCredentialRequest.Builder().addCredentialOption(googleIdOption).build()
+
+        viewModelScope.launch(Dispatchers.Main) {
+            try {
+                val result = credentialManager.getCredential(activity, request)
+                handleSignIn(activity, result.credential)
+            } catch (e: Exception) {
+                Log.d(TAG, "signInWithGoogle: ${e.message}")
+            }
+        }
+    }
+
+    private fun handleSignIn(activity: Activity, credential: Credential) {
+        // Check if credential is of type Google ID
+        if (credential is CustomCredential && credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+            // Create Google ID Token
+            val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+
+            // Sign in to Firebase with using the token
+            firebaseAuthWithGoogle(activity, googleIdTokenCredential.idToken)
+        } else {
+            Log.w(TAG, "Credential is not of type Google ID!")
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(activity: Activity, idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(activity) { task ->
+            if (task.isSuccessful) {
+                // Sign in success, update UI with the signed-in user's information
+                Log.d(TAG, "createUserWithEmail:success")
+                _loginMessage.value = "createUserWithEmail:success"
+                val user = firebaseAuth.currentUser
+                updateUI(user)
+            } else {
+                // If sign in fails, display a message to the user.
+                Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                _loginMessage.value = "createUserWithEmail:failure, ${task.exception?.message}"
+                updateUI(null)
+            }
+        }
+    }
+
 
     fun createAccountWithEmail(activity: Activity) {
         val userEmail = email.get()
@@ -149,5 +215,4 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
-
 }
