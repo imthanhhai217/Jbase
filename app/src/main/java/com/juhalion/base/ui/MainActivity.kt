@@ -2,6 +2,7 @@ package com.juhalion.base.ui
 
 import android.os.Bundle
 import android.util.Log
+import com.juhalion.bae.base.AppConfig
 import com.juhalion.bae.base.BaseActivity
 import com.juhalion.bae.view.fragment_tab_view.TabItem
 import com.juhalion.bae.view.fragment_tab_view.animation.PageAnimationType
@@ -63,6 +64,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
                 updateBadge(BottomNavConfig.Profile, 10)
             }
+
+//            btnChangeTheme.setOnClickListener {
+//                AppConfig.isNightMode = !AppConfig.isNightMode
+//                recreate()
+//            }
         }
     }
 

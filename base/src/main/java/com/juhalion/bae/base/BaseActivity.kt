@@ -2,7 +2,12 @@ package com.juhalion.bae.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.viewbinding.ViewBinding
+
+object AppConfig {
+    var isNightMode: Boolean = false
+}
 
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
@@ -17,6 +22,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applyTheme()
         _binding = inflateBinding()
         setContentView(binding.root)
     }
@@ -29,5 +35,13 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     /** Optional: DSL style for using binding */
     protected inline fun <T> withBinding(block: VB.() -> T): T {
         return binding.block()
+    }
+
+    private fun applyTheme() {
+        if (AppConfig.isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
     }
 }
