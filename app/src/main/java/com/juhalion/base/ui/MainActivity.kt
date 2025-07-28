@@ -64,11 +64,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
                 updateBadge(BottomNavConfig.Profile, 10)
             }
-
-//            btnChangeTheme.setOnClickListener {
-//                AppConfig.isNightMode = !AppConfig.isNightMode
-//                recreate()
-//            }
         }
     }
 

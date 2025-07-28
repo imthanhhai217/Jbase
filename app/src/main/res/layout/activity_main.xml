@@ -35,6 +35,8 @@
             app:badgeTextSize="@dimen/_10ssp"
             app:iconHeightPercent="0.7"
             app:iconScale="0.8"
+            app:titleSelectedColor="@color/tab_selected"
+            app:titleUnselectedColor="@color/tab_unselected"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

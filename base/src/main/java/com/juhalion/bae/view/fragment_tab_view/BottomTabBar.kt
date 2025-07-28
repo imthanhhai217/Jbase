@@ -67,8 +67,8 @@ class BottomTabBar @JvmOverloads constructor(
     private var tabPadding = 0
 
     // Cached resources - lazy initialization for performance
-    private val selectedColor by lazy { context.getCompatColor(R.color.tab_selected) }
-    private val unselectedColor by lazy { context.getCompatColor(R.color.tab_unselected) }
+    private var selectedColor = context.getCompatColor(R.color.tab_selected)
+    private var unselectedColor = context.getCompatColor(R.color.tab_unselected)
     private val tabLayoutParams by lazy {
         LayoutParams(0, LayoutParams.MATCH_PARENT).apply { weight = 1f }
     }
@@ -105,6 +105,8 @@ class BottomTabBar @JvmOverloads constructor(
                 titleTextSize = getDimension(R.styleable.BottomTabBar_titleTextSize, DEFAULT_TITLE_TEXT_SIZE_SP.spToPx(context))
                 tabPadding = getDimensionPixelSize(R.styleable.BottomTabBar_tabPadding, 0)
 
+                selectedColor = getColor(R.styleable.BottomTabBar_titleSelectedColor, context.getCompatColor(R.color.tab_selected))
+                unselectedColor = getColor(R.styleable.BottomTabBar_titleUnselectedColor, context.getCompatColor(R.color.tab_unselected))
             } finally {
                 recycle()
             }
@@ -124,12 +126,12 @@ class BottomTabBar @JvmOverloads constructor(
 
         setupViewPager(viewPager, fragmentActivity, tabItems)
 
-        creatTabViews(tabItems)
+        createTabViews(tabItems)
 
         selectInitialTab()
     }
 
-    private fun creatTabViews(tabItems: List<TabItem>) {
+    private fun createTabViews(tabItems: List<TabItem>) {
         // Create tab views
         tabItems.forEach { tabItem ->
             val binding = createTabView(tabItem.tabInfo)

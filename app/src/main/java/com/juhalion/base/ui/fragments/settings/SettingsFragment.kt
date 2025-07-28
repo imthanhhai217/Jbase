@@ -1,9 +1,11 @@
 package com.juhalion.base.ui.fragments.settings
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import com.juhalion.bae.base.BaseFragment
 import com.juhalion.base.adapters.FunctionAdapterMultiType
 import com.juhalion.base.databinding.FragmentSettingsBinding
@@ -19,6 +21,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        setupDarkModeSwitch()
     }
 
     fun generateFakeFunctionList(): List<JFunction> {
@@ -63,6 +66,26 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 listener = { view, item, position ->
 
                 }
+            }
+        }
+    }
+
+    private fun setupDarkModeSwitch() {
+        withBinding {
+            // Khởi tạo SharedPreferences
+            val sharedPreferences = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
+            // Lấy trạng thái dark mode đã lưu, mặc định là false (light mode)
+            val isDarkModeEnabled = sharedPreferences.getBoolean("dark_mode", false)
+            switchDarkMode.isChecked = isDarkModeEnabled
+
+            switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+                // Lưu trạng thái mới vào SharedPreferences
+                sharedPreferences.edit().putBoolean("dark_mode", isChecked).apply()
             }
         }
     }

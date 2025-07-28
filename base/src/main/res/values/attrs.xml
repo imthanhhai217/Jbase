@@ -3,6 +3,8 @@
     <declare-styleable name="BottomTabBar">
         <!--        Hiển thị title-->
         <attr name="showTitle" format="boolean" />
+        <attr name="titleSelectedColor" format="color" />
+        <attr name="titleUnselectedColor" format="color" />
         <!--        Hiển thị badge-->
         <attr name="showBadge" format="boolean" />
         <!--        Padding của tab-->
