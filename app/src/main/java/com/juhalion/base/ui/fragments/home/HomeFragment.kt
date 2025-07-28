@@ -10,6 +10,7 @@ import com.juhalion.bae.base.BaseFragment
 import com.juhalion.bae.networking.ApiResponse
 import com.juhalion.base.R
 import com.juhalion.base.adapters.CommentAdapterSingleType
+import com.juhalion.base.adapters.ProductXAdapter
 import com.juhalion.base.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,17 +18,19 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val homeViewModel: HomeViewModel by activityViewModels()
     private lateinit var commentAdapterSingleType: CommentAdapterSingleType
-
+    private lateinit var productXAdapter: ProductXAdapter
     override fun inflateBinding(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
     ) = FragmentHomeBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
 //        throw Exception("Test crashlytics")
-        getCommentData()
+//        getCommentData()
+
+        getProducts()
         observeViewModel()
     }
 
@@ -62,10 +65,38 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
+
+        homeViewModel.productData.observe(viewLifecycleOwner) { productDataEvent ->
+            productDataEvent.getContentIfNotHandled()?.let { content ->
+                when (content) {
+                    is ApiResponse.Success<*> -> {
+                        content.data?.let { responseData ->
+                            productXAdapter = ProductXAdapter()
+                            productXAdapter.updateData(responseData.products)
+                            binding.rvDemo.apply {
+                                adapter = productXAdapter
+                                layoutManager = LinearLayoutManager(requireActivity())
+                            }
+                        }
+                    }
+
+                    is ApiResponse.Failed<*>  -> {
+                    }
+
+                    is ApiResponse.Loading<*> -> {
+                    }
+                }
+
+            }
+        }
     }
 
     private fun getCommentData() {
         homeViewModel.getComment()
+    }
+
+    private fun getProducts() {
+        homeViewModel.getProducts()
     }
 
     companion object {

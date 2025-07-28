@@ -21,7 +21,7 @@ interface UserDAO : BaseDAO<User> {
     suspend fun delete(userID: Int)
 
     @Query("SELECT * FROM users")
-    override fun fetchListData(): Flow<List<User>>
+    override fun getLocalProducts(): Flow<List<User>>
 
     @Query("SELECT * FROM users where id = :id")
     fun findingUser(id: Int): Flow<User?>

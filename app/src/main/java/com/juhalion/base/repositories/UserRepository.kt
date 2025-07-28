@@ -22,5 +22,5 @@ class UserRepository @Inject constructor(private val userDao: UserDAO) {
 
     fun getUserByID(id: Int) = userDao.findingUser(id)
 
-    fun getAllUsers() = userDao.fetchListData()
+    fun getAllUsers() = userDao.getLocalProducts()
 }

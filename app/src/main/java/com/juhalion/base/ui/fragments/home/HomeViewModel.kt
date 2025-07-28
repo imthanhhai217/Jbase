@@ -8,14 +8,16 @@ import androidx.lifecycle.viewModelScope
 import com.juhalion.bae.events.SingleEvent
 import com.juhalion.bae.networking.ApiResponse
 import com.juhalion.base.models.comment.CommentResponse
+import com.juhalion.base.models.product.ProductResponse
 import com.juhalion.base.repositories.CommentRepo
+import com.juhalion.base.repositories.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-        private val commentRepo: CommentRepo, application: Application
+    application: Application, private val commentRepo: CommentRepo, private val productRepo: ProductRepository
 ) : AndroidViewModel(application) {
 
     private val _commentData = MutableLiveData<SingleEvent<ApiResponse<CommentResponse>>>()
@@ -26,6 +28,17 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val response = commentRepo.getComments()
             _commentData.value = SingleEvent(response)
+        }
+    }
+
+    private val _productData = MutableLiveData<SingleEvent<ApiResponse<ProductResponse>>>()
+    var productData: LiveData<SingleEvent<ApiResponse<ProductResponse>>> = _productData
+    fun getProducts() {
+        _productData.value = SingleEvent(ApiResponse.Loading())
+
+        viewModelScope.launch {
+            val response = productRepo.fetchListProduct()
+            _productData.value = SingleEvent(response)
         }
     }
 }

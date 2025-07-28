@@ -153,7 +153,7 @@ class ProfileViewModel @Inject constructor(
 
     fun getListProduct() {
         viewModelScope.launch {
-            productRepository.getAllProducts().collectLatest {
+            productRepository.getLocalProducts().collectLatest {
                 _productData.emit(it)
             }
         }

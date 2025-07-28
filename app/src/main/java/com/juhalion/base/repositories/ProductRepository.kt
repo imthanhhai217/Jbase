@@ -1,12 +1,19 @@
 package com.juhalion.base.repositories
 
+import com.juhalion.bae.networking.GenericApiResponse
+import com.juhalion.base.api.ApiService
 import com.juhalion.base.db.dao.ProductDAO
 import com.juhalion.base.models.product.Product
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ProductRepository @Inject constructor(private val productDao: ProductDAO) {
+class ProductRepository @Inject constructor(private val productDao: ProductDAO, private val apiService: ApiService) : GenericApiResponse() {
+
+    suspend fun fetchListProduct() = apiCall {
+        apiService.getProducts()
+    }
+
     suspend fun upsertProduct(product: Product) {
         productDao.upsert(product)
     }
@@ -19,5 +26,5 @@ class ProductRepository @Inject constructor(private val productDao: ProductDAO) 
         productDao.delete(productID)
     }
 
-    fun getAllProducts() = productDao.fetchListData()
+    fun getLocalProducts() = productDao.getLocalProducts()
 }

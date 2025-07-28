@@ -22,5 +22,5 @@ interface ProductDAO : BaseDAO<Product> {
     suspend fun delete(productID: Int)
 
     @Query("SELECT * FROM products")
-    override fun fetchListData(): Flow<List<Product>>
+    override fun getLocalProducts(): Flow<List<Product>>
 }
