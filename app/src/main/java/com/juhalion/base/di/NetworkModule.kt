@@ -1,4 +1,4 @@
-package com.juhalion.bae.di
+package com.juhalion.base.di
 
 import com.juhalion.bae.BuildConfig
 import com.juhalion.bae.config.CommonConfigManager
