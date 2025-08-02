@@ -17,11 +17,11 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 class MyApplication : BaseApplication() {
-    @Inject
-    lateinit var appLifecycleObserver: AppLifecycleObserver
+    @Inject lateinit var appLifecycleObserver: AppLifecycleObserver
 
     override fun onCreate() {
         super.onCreate()
+        instances = this
         ProcessLifecycleOwner.get().lifecycle.addObserver(appLifecycleObserver)
         initBaseConfig()
         applyDayNightMode()
@@ -51,10 +51,6 @@ class MyApplication : BaseApplication() {
         }.build()
 
         CommonConfigManager.setCommonConfig(config)
-    }
-
-    override fun getInstances(): BaseApplication {
-        return this
     }
 
     override fun isAppRunning() = appLifecycleObserver.isAppRunning
