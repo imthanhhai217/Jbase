@@ -127,9 +127,7 @@ class EncryptedPreference<T>(
             Log.e(SECURE_PREFS_TAG, "Generic exception on setting value for key '$name'. Value not saved. Error: ${e.message}", e)
         }
     }
-}
 
-object SecureSharedPrefs {
     /**
      * Clears all data stored in these EncryptedSharedPreferences.
      * This will also trigger the reset and re-initialization logic if there
