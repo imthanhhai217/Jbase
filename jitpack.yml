@@ -1,4 +1,9 @@
 jdk:
   - openjdk17
-install:
-  - ./gradlew :jbae:assembleRelease
+
+android:
+  module: jbae
+
+build:
+  gradle:
+    - jbae:assembleRelease
