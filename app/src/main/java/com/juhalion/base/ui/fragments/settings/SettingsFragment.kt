@@ -1,27 +1,37 @@
 package com.juhalion.base.ui.fragments.settings
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import com.juhalion.bae.base.BaseFragment
 import com.juhalion.base.adapters.FunctionAdapterMultiType
+import com.juhalion.base.constants.Constant
 import com.juhalion.base.databinding.FragmentSettingsBinding
 import com.juhalion.base.models.function.JFunction
+import androidx.core.content.edit
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun inflateBinding(
         inflater: LayoutInflater, container: ViewGroup?
     ) = FragmentSettingsBinding.inflate(layoutInflater, container, false)
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Initialize SharedPreferences
+        sharedPreferences = requireActivity().getSharedPreferences(Constant.PREF_NAME, Context.MODE_PRIVATE)
         initView()
     }
 
-    fun generateFakeFunctionList(): List<JFunction> {
+    private fun generateFunctionList(): List<JFunction> {
+        val isDarkMode = sharedPreferences.getBoolean(KEY_DARK_MODE, false)
+
         return listOf(
             JFunction.HeaderItem(id = 1, title = "Tính năng phổ biến"),
             JFunction.FunctionItem(id = 2, title = "Chụp ảnh"),
@@ -29,6 +39,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             JFunction.FunctionItem(id = 4, title = "Tạo mã QR"),
 
             JFunction.HeaderItem(id = 5, title = "Tiện ích khác"),
+            JFunction.SwitchItem(id = 100, title = "Chế độ tối", isChecked = isDarkMode), // Dark Mode Switch
             JFunction.FunctionItem(id = 6, title = "Cài đặt"),
             JFunction.FunctionItem(id = 7, title = "Lịch sử"),
             JFunction.FunctionItem(id = 8, title = "Giới thiệu"),
@@ -51,23 +62,39 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             rvMultiType.adapter = functionAdapter
             val functionAdapter2 = FunctionAdapterMultiType()
             rvMultiType2.adapter = functionAdapter2
-            functionAdapter.apply {
-                updateData(generateFakeFunctionList())
-                listener = { view, item, position ->
 
+            functionAdapter.apply {
+                updateData(generateFunctionList())
+                listener = { _, item, _ ->
+                    if (item is JFunction.SwitchItem) {
+                        handleThemeChange(item.isChecked)
+                    }
                 }
             }
 
             functionAdapter2.apply {
-                updateData(generateFakeFunctionList())
-                listener = { view, item, position ->
-
+                updateData(generateFunctionList())
+                listener = { _, item, _ ->
+                     if (item is JFunction.SwitchItem) {
+                        handleThemeChange(item.isChecked)
+                    }
                 }
             }
         }
     }
 
+    private fun handleThemeChange(isDarkMode: Boolean) {
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+        // Save the setting
+        sharedPreferences.edit { putBoolean(KEY_DARK_MODE, isDarkMode) }
+    }
+
     companion object {
+        const val KEY_DARK_MODE = "dark_mode_enabled"
         @JvmStatic fun newInstance() = SettingsFragment()
     }
 }

@@ -1,5 +1,7 @@
 package com.juhalion.base
 
+import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.juhalion.bae.config.BaseApplication
@@ -9,6 +11,7 @@ import com.juhalion.bae.events.SingleEvent
 import com.juhalion.bae.lifecycle.AppLifecycleObserver
 import com.juhalion.base.constants.Constant
 import com.juhalion.base.constants.ConstantApi
+import com.juhalion.base.ui.fragments.settings.SettingsFragment
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -21,6 +24,17 @@ class MyApplication : BaseApplication() {
         super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(appLifecycleObserver)
         initBaseConfig()
+        applyDayNightMode()
+    }
+
+    private fun applyDayNightMode() {
+        val sharedPreferences = getSharedPreferences(Constant.PREF_NAME, Context.MODE_PRIVATE)
+        val isDarkMode = sharedPreferences.getBoolean(SettingsFragment.KEY_DARK_MODE, false)
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
     }
 
     private fun initBaseConfig() {
@@ -55,11 +69,11 @@ class MyApplication : BaseApplication() {
 
     override val notificationComing = MutableLiveData<SingleEvent<Any>>()
     override fun sendNotificationComing() {
-        unAuthenticationEvent.postValue(SingleEvent(Any()))
+        notificationComing.postValue(SingleEvent(Any()))
     }
 
     override val unAuthenticationEvent = MutableLiveData<SingleEvent<Any>>()
     override fun onUnAuthentication() {
-        notificationComing.postValue(SingleEvent(Any()))
+        unAuthenticationEvent.postValue(SingleEvent(Any()))
     }
 }
