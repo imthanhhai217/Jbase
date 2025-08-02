@@ -27,4 +27,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "JuBae"
 include(":app")
-include(":base")
+include(":jbae")
