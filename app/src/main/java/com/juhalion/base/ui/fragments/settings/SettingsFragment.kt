@@ -13,7 +13,9 @@ import com.juhalion.base.constants.Constant
 import com.juhalion.base.databinding.FragmentSettingsBinding
 import com.juhalion.base.models.function.JFunction
 import androidx.core.content.edit
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
     private lateinit var sharedPreferences: SharedPreferences

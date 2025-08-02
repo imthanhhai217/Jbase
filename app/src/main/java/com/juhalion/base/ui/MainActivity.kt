@@ -13,6 +13,7 @@ import com.juhalion.base.ui.fragments.profile.ProfileFragment
 import com.juhalion.base.ui.fragments.settings.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val TAG = "MainActivity"
     override fun inflateBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)

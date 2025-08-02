@@ -83,7 +83,7 @@ dependencies {
 
     implementation(libs.constraintlayout)
 
-    implementation(project(":base"))
+    implementation(project(":jbae"))
 
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
