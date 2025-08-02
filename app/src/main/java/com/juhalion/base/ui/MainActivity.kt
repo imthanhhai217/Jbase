@@ -2,7 +2,6 @@ package com.juhalion.base.ui
 
 import android.os.Bundle
 import android.util.Log
-import com.juhalion.bae.base.AppConfig
 import com.juhalion.bae.base.BaseActivity
 import com.juhalion.bae.view.fragment_tab_view.TabItem
 import com.juhalion.bae.view.fragment_tab_view.animation.PageAnimationType
@@ -14,7 +13,8 @@ import com.juhalion.base.ui.fragments.profile.ProfileFragment
 import com.juhalion.base.ui.fragments.settings.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint class MainActivity : BaseActivity<ActivityMainBinding>() {
+@AndroidEntryPoint
+class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val TAG = "MainActivity"
     override fun inflateBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,10 +25,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
     private fun initView() {
         binding.apply {
-            val listItem = listOf(TabItem(tabInfo = BottomNavConfig.Home, fragment = HomeFragment.Companion.newInstance()),
-                TabItem(tabInfo = BottomNavConfig.Play, fragment = PlayFragment.Companion.newInstance()),
-                TabItem(tabInfo = BottomNavConfig.Profile, fragment = ProfileFragment.Companion.newInstance()),
-                TabItem(tabInfo = BottomNavConfig.Settings, fragment = SettingsFragment.Companion.newInstance()))
+            val listItem = listOf(
+                    TabItem(tabInfo = BottomNavConfig.Home, fragment = HomeFragment.Companion.newInstance()),
+                    TabItem(tabInfo = BottomNavConfig.Play, fragment = PlayFragment.Companion.newInstance()),
+                    TabItem(tabInfo = BottomNavConfig.Profile, fragment = ProfileFragment.Companion.newInstance()),
+                    TabItem(tabInfo = BottomNavConfig.Settings, fragment = SettingsFragment.Companion.newInstance())
+            )
 
             tsbDemo.apply {
                 setupBottomTabBar(viewPager = binding.vpDemo, tabItems = listItem, fragmentActivity = this@MainActivity)
@@ -36,17 +38,17 @@ import dagger.hilt.android.AndroidEntryPoint
                 onTabSelecting = { tab ->
                     if (tab is BottomNavConfig) {
                         when (tab) {
-                            BottomNavConfig.Home     -> {
+                            BottomNavConfig.Home -> {
                                 Log.d(TAG, "initView: Home")
                                 true
                             }
 
-                            BottomNavConfig.Play     -> {
+                            BottomNavConfig.Play -> {
                                 Log.d(TAG, "initView: Play")
                                 true
                             }
 
-                            BottomNavConfig.Profile  -> {
+                            BottomNavConfig.Profile -> {
                                 Log.d(TAG, "initView: Profile")
                                 tsbDemo.updateBadge(BottomNavConfig.Profile, null)
                                 true

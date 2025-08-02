@@ -14,7 +14,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0.1"
+        versionName = "1.0.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -83,11 +83,11 @@ dependencies {
 
     implementation(libs.constraintlayout)
 
-    implementation(project(":base"))
+    implementation(project(":jbae"))
 
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
-//    implementation ("com.github.imthanhhai217:Jbase:v1.0.1")
+    implementation(libs.androidx.security.crypto)
 }

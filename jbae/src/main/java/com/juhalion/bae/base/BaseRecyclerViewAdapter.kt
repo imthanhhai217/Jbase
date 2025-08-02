@@ -11,14 +11,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseRecyclerViewAdapter<T : Any, VBD : ViewDataBinding> :
-    RecyclerView.Adapter<BaseRecyclerViewAdapter.BaseViewHolder<VBD>>() {
+abstract class BaseRecyclerViewAdapter<T : Any, VBD : ViewDataBinding> : RecyclerView.Adapter<BaseRecyclerViewAdapter.BaseViewHolder<VBD>>() {
     companion object {
         const val ITEM_DEFAULT_TYPE = 0
     }
 
-    private val differ =
-        AsyncListDiffer(DifferCallback(), AsyncDifferConfig.Builder(createDiffCallback()).build())
+    private val differ = AsyncListDiffer(DifferCallback(), AsyncDifferConfig.Builder(createDiffCallback()).build())
 
     protected val listData: List<T>
         get() = differ.currentList
@@ -81,6 +79,5 @@ abstract class BaseRecyclerViewAdapter<T : Any, VBD : ViewDataBinding> :
         }
     }
 
-    class BaseViewHolder<VBD : ViewDataBinding>(val binding: VBD) :
-        RecyclerView.ViewHolder(binding.root)
+    class BaseViewHolder<VBD : ViewDataBinding>(val binding: VBD) : RecyclerView.ViewHolder(binding.root)
 }

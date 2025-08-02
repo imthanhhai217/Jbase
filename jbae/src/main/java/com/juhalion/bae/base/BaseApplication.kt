@@ -1,4 +1,4 @@
-package com.juhalion.bae.config
+package com.juhalion.bae.base
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,10 @@ import com.juhalion.bae.events.SingleEvent
 import com.juhalion.bae.networking.UnAuthenticationCallback
 
 abstract class BaseApplication : Application(), UnAuthenticationCallback {
-    abstract fun getInstances(): BaseApplication
+    companion object {
+        var instances: BaseApplication? = null
+    }
+
     abstract fun isAppRunning(): Boolean
     abstract fun isAppInForeground(): Boolean
     abstract val unAuthenticationEvent: MutableLiveData<SingleEvent<Any>>

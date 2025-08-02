@@ -22,7 +22,6 @@ object NetworkModule {
     @Singleton
     fun provideBaseUrl() = CommonConfigManager.Companion.getInstance().baseUrl
 
-
     @Provides
     @Singleton
     fun provideOkHttp(customInterceptor: CustomInterceptor): OkHttpClient {
@@ -34,12 +33,12 @@ object NetworkModule {
             }
         }
         return OkHttpClient.Builder()
-            .addInterceptor(customInterceptor)
-            .addInterceptor(logs)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .build()
+                .addInterceptor(customInterceptor)
+                .addInterceptor(logs)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .build()
     }
 
     @Provides
@@ -49,14 +48,10 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(
-            baseUrl: String,
-            client: OkHttpClient,
-            gsonConverterFactory: GsonConverterFactory,
+        baseUrl: String,
+        client: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .client(client)
-            .addConverterFactory(gsonConverterFactory)
-            .build()
+        return Retrofit.Builder().baseUrl(baseUrl).client(client).addConverterFactory(gsonConverterFactory).build()
     }
 }
