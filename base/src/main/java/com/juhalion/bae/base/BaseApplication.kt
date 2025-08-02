@@ -1,4 +1,4 @@
-package com.juhalion.bae.config
+package com.juhalion.bae.base
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.juhalion.bae.config.BaseApplication
+import com.juhalion.bae.base.BaseApplication
 import com.juhalion.bae.config.CommonConfigManager
 import com.juhalion.bae.config.ConfigBuilder
 import com.juhalion.bae.events.SingleEvent
