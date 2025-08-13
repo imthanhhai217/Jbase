@@ -124,12 +124,12 @@ class BottomTabBar @JvmOverloads constructor(
 
         setupViewPager(viewPager, fragmentActivity, tabItems)
 
-        creatTabViews(tabItems)
+        createTabViews(tabItems)
 
         selectInitialTab()
     }
 
-    private fun creatTabViews(tabItems: List<TabItem>) {
+    private fun createTabViews(tabItems: List<TabItem>) {
         // Create tab views
         tabItems.forEach { tabItem ->
             val binding = createTabView(tabItem.tabInfo)
@@ -151,8 +151,28 @@ class BottomTabBar @JvmOverloads constructor(
         pageChangeCallback?.let { viewPager.unregisterOnPageChangeCallback(it) }
         pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                tabItems.getOrNull(position)?.tabInfo?.let { tabInfo ->
-                    scrollToTab(tabInfo)
+                // Lấy tab mục tiêu
+                val targetTabInfo = tabs.getOrNull(position)?.tabInfo ?: return
+
+                // Lưu lại index của tab hiện tại (trước khi swipe)
+                val previousValidTabIndex = this@BottomTabBar.currentTab?.let { current ->
+                    tabs.indexOfFirst { it.tabInfo == current }
+                } ?: 0
+
+                // Kiểm tra với callback onTabSelecting
+                if (onTabSelecting?.invoke(targetTabInfo) == false) {
+                    // Nếu onTabSelecting trả về false (ví dụ: chưa login cho tab Profile)
+                    // Hoàn tác việc ViewPager2 chuyển trang
+                    // Dùng post để đảm bảo setCurrentItem được gọi sau khi ViewPager2 đã ổn định
+                    viewPager.post {
+                        viewPager.setCurrentItem(previousValidTabIndex, false)
+                    }
+                    // KHÔNG cập nhật currentTab hoặc UI của BottomTabBar
+                    // vì chúng ta muốn nó ở lại tab trước đó.
+                } else {
+                    // Nếu được phép chọn tab
+                    updateTabSelected(targetTabInfo) // Cập nhật UI của tab bar
+                    this@BottomTabBar.currentTab = targetTabInfo // Cập nhật tab hiện tại của tab bar
                 }
             }
         }.also { viewPager.registerOnPageChangeCallback(it) }
