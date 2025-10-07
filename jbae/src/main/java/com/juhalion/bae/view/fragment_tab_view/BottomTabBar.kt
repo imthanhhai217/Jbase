@@ -306,7 +306,7 @@ class BottomTabBar @JvmOverloads constructor(
     /**
      * Scroll to tab - optimized with early returns
      */
-    fun scrollToTab(targetTabInfo: TabInfo) {
+    fun scrollToTab(targetTabInfo: TabInfo, isSmoothScroll: Boolean = false) {
         // Early return if already selected
         if (currentTab == targetTabInfo) return
 
@@ -318,7 +318,7 @@ class BottomTabBar @JvmOverloads constructor(
 
         // Update state
         updateTabSelected(targetTabInfo)
-        viewPager?.setCurrentItem(index, true)
+        viewPager?.setCurrentItem(index, isSmoothScroll)
         currentTab = targetTabInfo
     }
 
