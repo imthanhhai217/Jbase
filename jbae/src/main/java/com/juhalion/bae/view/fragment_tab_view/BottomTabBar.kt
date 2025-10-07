@@ -3,6 +3,7 @@ package com.juhalion.bae.view.fragment_tab_view
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.LinearLayout
@@ -204,7 +205,11 @@ class BottomTabBar @JvmOverloads constructor(
     /**
      * Add animation - simple delegation
      */
-    fun transformAnimation(pageAnimationType: PageAnimationType) {
+    fun transformAnimation(pageAnimationType: PageAnimationType? = null) {
+        if (pageAnimationType == null) {
+            Log.d(TAG, "transformAnimation: not config page animation")
+            return
+        }
         viewPager?.setPageTransformer(PageTransformer(pageAnimationType))
     }
 
