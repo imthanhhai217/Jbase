@@ -3,7 +3,6 @@ package com.juhalion.bae.networking
 import android.app.Application
 import com.juhalion.bae.R
 import com.juhalion.bae.utils.JuExtendFunction.getCompatString
-import com.juhalion.bae.utils.LoadingStateManager
 import com.juhalion.bae.utils.Utils
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -18,7 +17,7 @@ class CustomInterceptor @Inject constructor(val application: Application) : Inte
         }
 
         // Show loading before the request
-        LoadingStateManager.showLoading()
+//        LoadingStateManager.showLoading()
 
         //if need add header params add here
         var request = chain.request().newBuilder().build()
@@ -28,7 +27,7 @@ class CustomInterceptor @Inject constructor(val application: Application) : Inte
             throw IOException(e.message)
         } finally {
             // Hide loading after the request, regardless of success or failure
-            LoadingStateManager.hideLoading()
+//            LoadingStateManager.hideLoading()
         }
         return response
     }
